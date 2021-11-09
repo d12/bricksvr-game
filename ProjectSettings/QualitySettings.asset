@@ -1,0 +1,157 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!47 &1
+QualitySettings:
+  m_ObjectHideFlags: 0
+  serializedVersion: 5
+  m_CurrentQuality: 0
+  m_QualitySettings:
+  - serializedVersion: 2
+    name: Quest
+    pixelLightCount: 1
+    shadows: 0
+    shadowResolution: 0
+    shadowProjection: 1
+    shadowCascades: 2
+    shadowDistance: 6
+    shadowNearPlaneOffset: 2
+    shadowCascade2Split: 0.098570086
+    shadowCascade4Split: {x: 0.06666667, y: 0.2, z: 0.46666667}
+    shadowmaskMode: 0
+    skinWeights: 1
+    textureQuality: 0
+    anisotropicTextures: 1
+    antiAliasing: 4
+    softParticles: 0
+    softVegetation: 1
+    realtimeReflectionProbes: 0
+    billboardsFaceCameraPosition: 1
+    vSyncCount: 0
+    lodBias: 1
+    maximumLODLevel: 0
+    streamingMipmapsActive: 0
+    streamingMipmapsAddAllCameras: 1
+    streamingMipmapsMemoryBudget: 512
+    streamingMipmapsRenderersPerFrame: 512
+    streamingMipmapsMaxLevelReduction: 2
+    streamingMipmapsMaxFileIORequests: 1024
+    particleRaycastBudget: 64
+    asyncUploadTimeSlice: 2
+    asyncUploadBufferSize: 4
+    asyncUploadPersistentBuffer: 1
+    resolutionScalingFixedDPIFactor: 1
+    customRenderPipeline: {fileID: 0}
+    excludedTargetPlatforms: []
+  - serializedVersion: 2
+    name: PC Low
+    pixelLightCount: 1
+    shadows: 1
+    shadowResolution: 1
+    shadowProjection: 1
+    shadowCascades: 2
+    shadowDistance: 5
+    shadowNearPlaneOffset: 3
+    shadowCascade2Split: 0.19311225
+    shadowCascade4Split: {x: 0.06666667, y: 0.2, z: 0.46666667}
+    shadowmaskMode: 0
+    skinWeights: 1
+    textureQuality: 1
+    anisotropicTextures: 1
+    antiAliasing: 2
+    softParticles: 0
+    softVegetation: 1
+    realtimeReflectionProbes: 0
+    billboardsFaceCameraPosition: 1
+    vSyncCount: 0
+    lodBias: 1
+    maximumLODLevel: 0
+    streamingMipmapsActive: 0
+    streamingMipmapsAddAllCameras: 1
+    streamingMipmapsMemoryBudget: 512
+    streamingMipmapsRenderersPerFrame: 512
+    streamingMipmapsMaxLevelReduction: 2
+    streamingMipmapsMaxFileIORequests: 1024
+    particleRaycastBudget: 64
+    asyncUploadTimeSlice: 2
+    asyncUploadBufferSize: 4
+    asyncUploadPersistentBuffer: 1
+    resolutionScalingFixedDPIFactor: 1
+    customRenderPipeline: {fileID: 0}
+    excludedTargetPlatforms: []
+  - serializedVersion: 2
+    name: PC Mid
+    pixelLightCount: 1
+    shadows: 2
+    shadowResolution: 2
+    shadowProjection: 1
+    shadowCascades: 4
+    shadowDistance: 15
+    shadowNearPlaneOffset: 3
+    shadowCascade2Split: 0.19494034
+    shadowCascade4Split: {x: 0.061141834, y: 0.19999999, z: 0.46666664}
+    shadowmaskMode: 0
+    skinWeights: 2
+    textureQuality: 0
+    anisotropicTextures: 1
+    antiAliasing: 4
+    softParticles: 0
+    softVegetation: 1
+    realtimeReflectionProbes: 0
+    billboardsFaceCameraPosition: 1
+    vSyncCount: 0
+    lodBias: 1
+    maximumLODLevel: 0
+    streamingMipmapsActive: 0
+    streamingMipmapsAddAllCameras: 1
+    streamingMipmapsMemoryBudget: 512
+    streamingMipmapsRenderersPerFrame: 512
+    streamingMipmapsMaxLevelReduction: 2
+    streamingMipmapsMaxFileIORequests: 1024
+    particleRaycastBudget: 64
+    asyncUploadTimeSlice: 2
+    asyncUploadBufferSize: 4
+    asyncUploadPersistentBuffer: 1
+    resolutionScalingFixedDPIFactor: 1
+    customRenderPipeline: {fileID: 0}
+    excludedTargetPlatforms: []
+  - serializedVersion: 2
+    name: PC High
+    pixelLightCount: 1
+    shadows: 2
+    shadowResolution: 3
+    shadowProjection: 1
+    shadowCascades: 4
+    shadowDistance: 25
+    shadowNearPlaneOffset: 3
+    shadowCascade2Split: 0.19494034
+    shadowCascade4Split: {x: 0.09797421, y: 0.35101295, z: 0.5790055}
+    shadowmaskMode: 1
+    skinWeights: 2
+    textureQuality: 0
+    anisotropicTextures: 1
+    antiAliasing: 4
+    softParticles: 0
+    softVegetation: 1
+    realtimeReflectionProbes: 0
+    billboardsFaceCameraPosition: 1
+    vSyncCount: 0
+    lodBias: 1
+    maximumLODLevel: 0
+    streamingMipmapsActive: 0
+    streamingMipmapsAddAllCameras: 1
+    streamingMipmapsMemoryBudget: 512
+    streamingMipmapsRenderersPerFrame: 512
+    streamingMipmapsMaxLevelReduction: 2
+    streamingMipmapsMaxFileIORequests: 1024
+    particleRaycastBudget: 64
+    asyncUploadTimeSlice: 2
+    asyncUploadBufferSize: 4
+    asyncUploadPersistentBuffer: 1
+    resolutionScalingFixedDPIFactor: 1
+    customRenderPipeline: {fileID: 0}
+    excludedTargetPlatforms: []
+  m_PerPlatformDefaultQuality:
+    Android: 0
+    Standalone: 3
+    WebGL: 0
+    Windows Store Apps: 2

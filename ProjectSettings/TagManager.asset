@@ -1,0 +1,68 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!78 &1
+TagManager:
+  serializedVersion: 2
+  tags:
+  - Axe
+  - Arrow
+  - ArrowBowHitbox
+  - ArrowBack
+  - Lego
+  - Connector-Male
+  - Connector-Female
+  - Button
+  - TeleportReticle
+  - XRInteractionManager
+  - ModularModel
+  - NormalSessionManager
+  - UserSettings
+  - SendBrickToServer
+  - LoadingCube
+  - BrickSounds
+  - RoomOwnershipSync
+  - OwnedPhysicsBricksStore
+  - PlacedBrickRendererManager
+  - ChunkedRenderer
+  - HapticsManager
+  - Realtime
+  - EventSystem
+  - AvatarFaceGetter
+  - LightManager
+  layers:
+  - Default
+  - TransparentFX
+  - Ignore Raycast
+  - 
+  - Water
+  - UI
+  - 
+  - 
+  - teleport
+  - Ignore ARCamera
+  - bow
+  - arrow
+  - lego
+  - button
+  - controller
+  - connector
+  - placed connector
+  - placed lego
+  - falling brick detector
+  - held lego connector
+  - spawner
+  - touch ui
+  - touch finger
+  - color pallette
+  - grabbable
+  - AlwaysOnTopUI
+  - PlayerHead
+  - BrickScreenshot
+  - 
+  - 
+  - 
+  - 
+  m_SortingLayers:
+  - name: Default
+    uniqueID: 0
+    locked: 0
