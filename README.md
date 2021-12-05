@@ -12,7 +12,7 @@ This project is not in a state where it will run. The BricksVR game has dependen
 
 ## Licensing
 
-All assets available in this repository (including scripts, materials, 3D models) are released for free under the MIT license. In short, the MIT license permits virtually all use, distribution, and modification for personal or commercial use. The full license is available in the LICENSE file.
+All assets available in this repository (including scripts, materials, 3D models) except the BricksVR name and logos are released for free under the MIT license. In short, the MIT license permits virtually all use, distribution, and modification for personal or commercial use. The full license is available in the LICENSE file.
 
 Some premium assets have been removed from this project, including some music and packages that were paid for by BricksVR but cannot be redistributed for free.
 
