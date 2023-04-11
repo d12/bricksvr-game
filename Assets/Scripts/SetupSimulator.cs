@@ -1,7 +1,5 @@
-﻿using UnityEngine;
-using UnityEngine.XR;
-using UnityEngine.Events;
-using UnityEngine.Serialization;
+﻿using UnityEngine.Serialization;
+using UnityEngine;
 
 public class SetupSimulator : MonoBehaviour
 {

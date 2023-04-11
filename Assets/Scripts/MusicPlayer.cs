@@ -42,6 +42,10 @@ public class MusicPlayer : MonoBehaviour
         if (!_musicDisabled && (_currentClipLen - _source.time) < 0.5f)
         {
             _source.clip = RandomSong();
+
+            if(!_source.clip)
+                return;
+                
             _currentClipLen = _source.clip.length;
             _source.Play();
         }
@@ -51,10 +55,19 @@ public class MusicPlayer : MonoBehaviour
     {
         while (true)
         {
-            if (songs.Length == 1) return songs[0];
+            if (songs.Length == 0) 
+                return null;
+
+            if (songs.Length == 1) 
+                return songs[0];
 
             AudioClip randomClip = songs[Random.Range(0, songs.Length)];
-            if (randomClip == _source.clip) continue;
+
+            if(randomClip == null) 
+                return null;
+
+            if (randomClip == _source?.clip) 
+                continue;
 
             return randomClip;
         }

@@ -1,9 +1,7 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using TMPro;
+﻿using UnityEngine.Events;
+using UnityEngine.UI;
 using UnityEngine;
-using UnityEngine.Events;
-using UnityEngine.UI.ProceduralImage;
+using TMPro;
 
 public class SliderControl : MonoBehaviour
 {
@@ -17,7 +15,7 @@ public class SliderControl : MonoBehaviour
 
     public GameObject markerPrefab;
 
-    public ProceduralImage[] markerImages;
+    public Image[] markerImages;
 
     public Color filledColor;
     public Color unfilledColor;
@@ -116,11 +114,11 @@ public class SliderControl : MonoBehaviour
                     };
                 }
 
-                markerImages = new ProceduralImage[(max - min)];
+                markerImages = new Image[(max - min)];
 
                 for (int i = 0; i < (max - min); i++)
                 {
-                    markerImages[i] = Instantiate(markerPrefab, progressMarkers.transform).GetComponent<ProceduralImage>();
+                    markerImages[i] = Instantiate(markerPrefab, progressMarkers.transform).GetComponent<Image>();
                 }
             }
 

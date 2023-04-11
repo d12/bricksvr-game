@@ -1,14 +1,12 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine.Serialization;
 using UnityEngine.Events;
-using UnityEngine.Serialization;
-using UnityEngine.UI.ProceduralImage;
+using UnityEngine.UI;
+using UnityEngine;
+using System;
 
 public class ColorCarousel : MonoBehaviour
 {
-    public ProceduralImage colorImage;
+    public Image colorImage;
     public Color[] colors;
     private int[] colorInts;
     private bool colorIntsInitialized;

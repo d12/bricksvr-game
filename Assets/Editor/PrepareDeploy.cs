@@ -26,7 +26,6 @@ public static class PrepareDeploy
     private static void PrepareWindowsBuild()
     {
         PlayerSettings.SetScriptingBackend(BuildTargetGroup.Standalone, ScriptingImplementation.IL2CPP);
-        EntitlementCheckManager.GetInstance().entitlementPlatform = EntitlementCheckManager.EntitlementPlatforms.Steam;
         PlayerSettings.SetApplicationIdentifier(BuildTargetGroup.Standalone, MainGamePackageName);
 
         Debug.Log("Prepared windows build.");
@@ -37,7 +36,6 @@ public static class PrepareDeploy
     {
         PlayerSettings.SetScriptingBackend(BuildTargetGroup.Android, ScriptingImplementation.IL2CPP);
         PlayerSettings.Android.targetArchitectures = AndroidArchitecture.ARM64 | AndroidArchitecture.ARMv7;
-        EntitlementCheckManager.GetInstance().entitlementPlatform = EntitlementCheckManager.EntitlementPlatforms.OculusQuest;
         PlayerSettings.SetApplicationIdentifier(BuildTargetGroup.Android, MainGamePackageName);
 
         Debug.Log("Prepared Oculus Quest build.");
@@ -48,7 +46,6 @@ public static class PrepareDeploy
     {
         PlayerSettings.SetScriptingBackend(BuildTargetGroup.Android, ScriptingImplementation.IL2CPP);
         PlayerSettings.Android.targetArchitectures = AndroidArchitecture.ARM64 | AndroidArchitecture.ARMv7;
-        EntitlementCheckManager.GetInstance().entitlementPlatform = EntitlementCheckManager.EntitlementPlatforms.OculusQuest;
         PlayerSettings.SetApplicationIdentifier(BuildTargetGroup.Android, DemoGamePackageName);
 
         Debug.Log("Prepared Oculus Quest DEMO build.");
@@ -58,7 +55,6 @@ public static class PrepareDeploy
     private static void SetupDevelopmentSettings()
     {
         PlayerSettings.SetScriptingBackend(BuildTargetGroup.Android, ScriptingImplementation.Mono2x);
-        EntitlementCheckManager.GetInstance().entitlementPlatform = EntitlementCheckManager.EntitlementPlatforms.OculusQuest;
         PlayerSettings.SetApplicationIdentifier(BuildTargetGroup.Android, MainGamePackageName);
 
         Debug.Log("Prepared development settings.");
@@ -68,7 +64,6 @@ public static class PrepareDeploy
     private static void SetupDemoDevelopmentSettings()
     {
         PlayerSettings.SetScriptingBackend(BuildTargetGroup.Android, ScriptingImplementation.Mono2x);
-        EntitlementCheckManager.GetInstance().entitlementPlatform = EntitlementCheckManager.EntitlementPlatforms.OculusQuest;
         PlayerSettings.SetApplicationIdentifier(BuildTargetGroup.Android, DemoGamePackageName);
 
         Debug.Log("Prepared development settings.");

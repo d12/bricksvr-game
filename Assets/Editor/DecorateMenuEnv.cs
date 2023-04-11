@@ -1,11 +1,11 @@
-using System.Collections;
+using UnityEngine.XR.Interaction.Toolkit;
+using UnityEditor.SceneManagement;
 using System.Collections.Generic;
+using Normal.Realtime;
 using System.Linq;
 using UnityEngine;
 using UnityEditor;
-using UnityEditor.SceneManagement;
-using Normal.Realtime;
-using UnityEngine.XR.Interaction.Toolkit;
+
 
 public static class DecorateMenuEnv
 {
@@ -62,7 +62,6 @@ public static class DecorateMenuEnv
             GameObject.DestroyImmediate(newBrick.GetComponent<RealtimeView>());
             GameObject.DestroyImmediate(newBrick.GetComponent<BrickAttach>());
             GameObject.DestroyImmediate(newBrick.GetComponent<BuildingBrickSync>());
-            GameObject.DestroyImmediate(newBrick.GetComponent<Outline>());
             GameObject.DestroyImmediate(newBrick.GetComponent<BrickUuid>());
             GameObject.DestroyImmediate(newBrick.GetComponent<XRGrabInteractable>());
             GameObject.DestroyImmediate(newBrick.GetComponent<BrickSounds>());

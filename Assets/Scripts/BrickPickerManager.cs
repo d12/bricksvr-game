@@ -1,13 +1,10 @@
-﻿using System;
-using System.Collections;
+﻿using UnityEngine.XR.Interaction.Toolkit;
 using System.Collections.Generic;
-using AdvancedColorPicker;
 using Normal.Realtime.Utility;
-using OVR;
-using UnityEngine;
-using UnityEngine.Serialization;
+using System.Collections;
 using UnityEngine.UI;
-using UnityEngine.XR.Interaction.Toolkit;
+using UnityEngine;
+using System;
 
 public class BrickPickerManager : MonoBehaviour
 {

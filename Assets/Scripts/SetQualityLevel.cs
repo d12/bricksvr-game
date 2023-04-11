@@ -1,7 +1,5 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using UnityEngine.XR;
 using UnityEngine;
-using UnityEngine.XR;
 
 public class SetQualityLevel : MonoBehaviour
 {

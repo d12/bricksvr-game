@@ -5,7 +5,6 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.Serialization;
 using UnityEngine.UI;
-using UnityEngine.UI.ProceduralImage;
 
 public class UIButtonEvents : MonoBehaviour
 {

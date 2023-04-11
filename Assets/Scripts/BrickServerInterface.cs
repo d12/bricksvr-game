@@ -1,19 +1,27 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.ComponentModel.Design.Serialization;
-using System.Globalization;
-using System.Linq;
-using Normal.Realtime;
-using UnityEngine;
+﻿using UnityEngine.SceneManagement;
 using UnityEngine.Networking;
-using UnityEngine.SceneManagement;
+using System.Globalization;
+using System.Collections;
+using Normal.Realtime;
+using System.Linq;
+using UnityEngine;
+using System;
 
 public class BrickServerInterface : MonoBehaviour
 {
     public RoomOwnershipSync roomOwnershipSync;
     private static BrickServerInterface _instance;
     private int _failedBricks = 0;
+
+    private const string ExceptionURL = "";
+    private const string BrickSubmitURL = "";
+    private const string RemoveBricksURL = "";
+    private const string SetLockedURL = "";
+    private const string CreateRoomURL = "";
+    private const string StartExportURL = "";
+    private const string RoomInfoURL = "";
+    private const string SetNicknameURL = "";
+    private const string IsVersionSupportedURL = "";
 
     // String keys for web reqeusts, allocate these ahead of time so we don't have slow first web requests
     private const string BrickServerInterfaceTag = "SendBrickToServer";
@@ -43,7 +51,6 @@ public class BrickServerInterface : MonoBehaviour
     private const string RotWKey = "rotw";
 
     private const string TimestampKey = "timestamp";
-
     private const string Done = "done";
 
     public static BrickServerInterface GetInstance()
