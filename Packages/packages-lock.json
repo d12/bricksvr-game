@@ -1,5 +1,12 @@
 {
   "dependencies": {
+    "com.nobi.roundedcorners": {
+      "version": "https://github.com/kirevdokimov/Unity-UI-Rounded-Corners.git",
+      "depth": 0,
+      "source": "git",
+      "dependencies": {},
+      "hash": "f80f59f64d1dfce988b838593e5075207f44f1f0"
+    },
     "com.normalvr.normcore": {
       "version": "2.1.8",
       "depth": 0,

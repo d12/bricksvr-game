@@ -10,7 +10,11 @@ public class Keyboard : MonoBehaviour
     [System.Serializable]
     public class SerializableStringEvent : UnityEvent<string> { }
 
+    [System.Serializable]
+    public class SerializableGameObjectEvent : UnityEvent<GameObject> { }
+
     public SerializableStringEvent keyPressed;
+    public SerializableGameObjectEvent capslockPressed;
     public UnityEvent backspacePressed;
 
     private AudioSource _audioSource;
@@ -27,13 +31,16 @@ public class Keyboard : MonoBehaviour
 
     public void KeyboardKeyPressed(string key)
     {
-        if (key == "backspace")
-        {
-            backspacePressed.Invoke();
-        }
-        else
-        {
-            keyPressed.Invoke(key);
+        switch(key) {
+            case "capslock":
+                capslockPressed.Invoke(gameObject);
+                break;
+            case "backspace":
+                backspacePressed.Invoke();
+                break;
+            default: 
+                keyPressed.Invoke(key);
+                break;
         }
     }
 }

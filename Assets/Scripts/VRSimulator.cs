@@ -1,10 +1,10 @@
 using UnityEngine;
-using OVR.OpenVR;
+using UnityEngine.XR.Interaction.Toolkit;
 
 public class VRSimulator : MonoBehaviour
 {
     void Start() {
-        if(OVRManager.loadedXRDevice == 0)
+        if(OVRManager.loadedXRDevice != OVRManager.XRDevice.Unknown)
             Destroy(this);
 
         transform.Find("Camera Offset/Head").localPosition += new Vector3(0, 1.43f, 0);
@@ -13,7 +13,7 @@ public class VRSimulator : MonoBehaviour
     // Inspired Source: https://github.com/ezefranca/NFCPlay/blob/master/_jogo/VRSJ/Assets/Codes/VRSimulator.cs
     void Update()
     {
-        if(OVRManager.loadedXRDevice == 0)
+        if(OVRManager.loadedXRDevice != OVRManager.XRDevice.Unknown)
             return;
         
         Cursor.lockState = CursorLockMode.Locked;

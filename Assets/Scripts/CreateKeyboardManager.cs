@@ -1,8 +1,7 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using Normal.Realtime;
-using TMPro;
+﻿using ProfanityFilter;
 using UnityEngine;
+using TMPro;
+
 
 public class CreateKeyboardManager : MonoBehaviour
 {
@@ -17,6 +16,7 @@ public class CreateKeyboardManager : MonoBehaviour
     private ProfanityFilter.ProfanityFilter _profanityFilter;
 
     private const string DefaultName = "My World";
+    private bool uppercase = true;
 
     private void Awake()
     {
@@ -37,8 +37,17 @@ public class CreateKeyboardManager : MonoBehaviour
         if (_enteredName.Length == 0 && key == " ")
             return;
 
-        _enteredName += key;
+        _enteredName += uppercase ? key.ToUpper() : key.ToLower();
         UpdateNameOnUI();
+    }
+
+    public void CapslockPress(GameObject gameObject) {
+        TextMeshProUGUI[] components = gameObject.GetComponentsInChildren<TextMeshProUGUI>();
+        foreach(TextMeshProUGUI text in components) {
+            text.text = uppercase ? text.text.ToLower() : text.text.ToUpper();
+        }
+
+        uppercase = !uppercase;
     }
 
     public void BackspacePress()
