@@ -1,7 +1,6 @@
 using UnityEngine.XR.Interaction.Toolkit;
 using UnityEditor.SceneManagement;
 using System.Collections.Generic;
-using Normal.Realtime;
 using System.Linq;
 using UnityEngine;
 using UnityEditor;
@@ -58,10 +57,7 @@ public static class DecorateMenuEnv
             newBrick.transform.localPosition = RandomBrickPos();
 
             // Destroy realtime components that we don't need.
-            GameObject.DestroyImmediate(newBrick.GetComponent<RealtimeTransform>());
-            GameObject.DestroyImmediate(newBrick.GetComponent<RealtimeView>());
             GameObject.DestroyImmediate(newBrick.GetComponent<BrickAttach>());
-            GameObject.DestroyImmediate(newBrick.GetComponent<BuildingBrickSync>());
             GameObject.DestroyImmediate(newBrick.GetComponent<BrickUuid>());
             GameObject.DestroyImmediate(newBrick.GetComponent<XRGrabInteractable>());
             GameObject.DestroyImmediate(newBrick.GetComponent<BrickSounds>());

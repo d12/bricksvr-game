@@ -1,9 +1,7 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
-using Normal.Realtime.Utility;
+﻿using System.Collections.Generic;
 using UnityEngine;
+using System.Linq;
+using System;
 
 public class ChunkedRenderer : MonoBehaviour
 {
@@ -79,7 +77,7 @@ public class ChunkedRenderer : MonoBehaviour
 
         Coord currentChunk = GetChunkFromPosition(playerPosition);
 
-        foreach ((Coord coord, Chunk chunk) in _chunkDictionary)
+        foreach ((Coord coord, Chunk chunk) in _chunkDictionary.Select(x => (x.Key, x.Value)))
         {
             // Enable renderers within our render distance (which is defined in actual distance, not # of chunks)
             chunk.SetRendererEnabled(_uncappedRenderDistance || (Vector3.Distance(playerPosition, chunk.Position) < renderDistance));

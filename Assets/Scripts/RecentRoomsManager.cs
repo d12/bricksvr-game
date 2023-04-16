@@ -10,7 +10,7 @@ using TMPro;
 public class RecentRoomsManager : MonoBehaviour
 {
     public UserSettings userSettings;
-    public NormalSessionManager normalSessionManager;
+    public SessionManager SessionManager;
 
     public GameObject noSavedRoomsObject;
     public GameObject savedRoomsObject;
@@ -115,7 +115,7 @@ public class RecentRoomsManager : MonoBehaviour
 
     private void ButtonClicked(string roomName)
     {
-        normalSessionManager.JoinRoomWrapper(roomName);
+        SessionManager.JoinRoomWrapper(roomName);
         gameObject.SetActive(false);
         loadingPage.SetActive(true);
     }

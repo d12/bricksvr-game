@@ -1,9 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using Normal.Realtime;
-using UnityEngine.UIElements;
-using UnityEngine.XR.Interaction.Toolkit;
+﻿using UnityEngine;
 
 public class ControllerButtonInput : MonoBehaviour
 {
@@ -13,14 +8,14 @@ public class ControllerButtonInput : MonoBehaviour
 
     private OVRInput.Controller _activeController;
 
-    private Realtime _realtime;
+    private Session _session;
     private bool _reset;
     private bool inMenu = true;
 
     // Start is called before the first frame update
     public void Start()
     {
-        _realtime = realtimeObject.GetComponent<Realtime>();
+        _session = realtimeObject.GetComponent<Session>();
         _reset = false;
 
         leftMenuHand.SetActive(true);
@@ -31,7 +26,7 @@ public class ControllerButtonInput : MonoBehaviour
     // Update is called once per frame
     private void Update()
     {
-        if ((!_realtime.connected && !_realtime.connecting) || inMenu)
+        if ((!_session.isPlaying && !_session.isLoading) || inMenu)
         {
             MenuLogic();
         }

@@ -1,9 +1,6 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using Normal.Realtime.Utility;
 using UnityEngine;
-using UnityEngine.Events;
 
 // [RequireComponent(typeof(Rigidbody))]
 public class QuickInteractor : MonoBehaviour

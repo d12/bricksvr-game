@@ -29,6 +29,7 @@ TagManager:
   - EventSystem
   - AvatarFaceGetter
   - LightManager
+  - Session
   layers:
   - Default
   - TransparentFX

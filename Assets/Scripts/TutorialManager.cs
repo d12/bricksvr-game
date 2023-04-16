@@ -1,21 +1,17 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using Normal.Realtime;
-using TMPro;
-using UnityEngine;
+﻿using UnityEngine.XR.Interaction.Toolkit;
 using UnityEngine.SceneManagement;
-using UnityEngine.UI;
-using UnityEngine.XR.Interaction.Toolkit;
 using Random = UnityEngine.Random;
+using System.Collections;
+using UnityEngine.UI;
+using UnityEngine;
+using System;
+using TMPro;
 
 public class TutorialManager : MonoBehaviour
 {
     public GameObject playerControllers;
     public GameObject infoBoard;
     public GameObject tutorialEnvContents;
-
-    public Realtime realtime;
 
     public SnapTurnProvider snapTurnProvider;
     public SmoothTurn smoothTurn;
@@ -99,8 +95,8 @@ public class TutorialManager : MonoBehaviour
     private void Start()
     {
         _instance = this;
-        realtime.didConnectToRoom += DidConnectToRoom;
-        realtime.didDisconnectFromRoom += DidDisconnectFromRoom;
+        //realtime.didConnectToRoom += DidConnectToRoom;
+        //realtime.didDisconnectFromRoom += DidDisconnectFromRoom;
     }
 
     private void Update()
@@ -181,7 +177,7 @@ public class TutorialManager : MonoBehaviour
 
     private IEnumerator ConnectToNormcore()
     {
-        realtime.Connect("tutorial-" + UserId.Get() + Random.Range(0, 100000));
+        //realtime.Connect("tutorial-" + UserId.Get() + Random.Range(0, 100000));
 
         float time = Time.time;
         while (Time.time - time < 10f)
@@ -198,21 +194,6 @@ public class TutorialManager : MonoBehaviour
         }
     }
 
-    private void DidConnectToRoom(Realtime _)
-    {
-        _didConnectToRoom = true;
-    }
-
-    private void DidDisconnectFromRoom(Realtime _)
-    {
-        if (!_connectedToNormcore)
-        {
-            UserSettings.GetInstance().TutorialPlayed = true;
-        }
-
-        _didDisconnectFromRoom = true;
-    }
-
     private void PlaySuccessTrack()
     {
         canvasAudioSource.Play();
@@ -220,12 +201,11 @@ public class TutorialManager : MonoBehaviour
 
     private GameObject CreateNewBrick(string prefabName, Transform t, Color color)
     {
-        GameObject brick = Realtime.Instantiate(prefabName, t.position, t.rotation, true, true, true, null);
+        GameObject brick = Instantiate(Resources.Load<GameObject>(prefabName), t.position, t.rotation);
 
-        BuildingBrickSync sync = brick.GetComponent<BuildingBrickSync>();
-        sync.EnableNewColors();
-        sync.SetColor(ColorInt.ColorToInt(color));
-        sync.SetUuid(BrickId.FetchNewBrickID());
+        BrickAttach attach = brick.GetComponent<BrickAttach>();
+        attach.Color = color;
+        attach.SetUuid(BrickId.FetchNewBrickID());
 
         EnablePhysicsOnBrick(brick);
 
@@ -236,9 +216,6 @@ public class TutorialManager : MonoBehaviour
     {
         GameObject.Destroy(brick.GetComponent<AutoDespawnPhysicsBricks>()); // Don't want this brick despawning
         brick.GetComponent<Rigidbody>().isKinematic = false;
-
-        RealtimeTransform rt = brick.GetComponent<RealtimeTransform>();
-        rt.RequestOwnership();
     }
 
     private IEnumerator AnimateBetweenTextObjectsWithCross(TextMeshProUGUI oldText, TextMeshProUGUI newText)

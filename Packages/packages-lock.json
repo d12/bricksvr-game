@@ -7,22 +7,6 @@
       "dependencies": {},
       "hash": "f80f59f64d1dfce988b838593e5075207f44f1f0"
     },
-    "com.normalvr.normcore": {
-      "version": "2.1.8",
-      "depth": 0,
-      "source": "registry",
-      "dependencies": {
-        "com.unity.editorcoroutines": "1.0.0"
-      },
-      "url": "https://normcore-registry.normcore.io"
-    },
-    "com.unity.editorcoroutines": {
-      "version": "1.0.0",
-      "depth": 1,
-      "source": "registry",
-      "dependencies": {},
-      "url": "https://packages.unity.com"
-    },
     "com.unity.ext.nunit": {
       "version": "1.0.6",
       "depth": 1,

@@ -1,16 +1,11 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
+
 using System.Diagnostics.CodeAnalysis;
-using UnityEngine;
-using UnityEngine.XR.Interaction.Toolkit;
-using System.Linq;
-using System.Runtime.CompilerServices;
-using System.Runtime.InteropServices.WindowsRuntime;
-using Normal.Realtime;
-using TMPro;
-using UnityEngine.Serialization;
 using Random = UnityEngine.Random;
+using System.Collections.Generic;
+using UnityEngine;
+using System.Linq;
+using System;
+
 
 // TODO: Communicate when the thing is being held, set rigidbody kinematic=true THEN. The
 
@@ -74,8 +69,6 @@ public class BrickAttach : MonoBehaviour
     public Mesh originalMesh;
     public Material originalMaterial;
 
-    private BuildingBrickSync _brickSync;
-
     private UserSettings _userSettings;
     private static readonly int ShaderColorProperty = Shader.PropertyToID("_Color");
     private static readonly int ShaderTexOffsetProperty = Shader.PropertyToID("_TexOffset");
@@ -95,7 +88,8 @@ public class BrickAttach : MonoBehaviour
     public bool isPlayerHead;
     public int headClientId = -1;
 
-    private RealtimeAvatarManager _realtimeAvatarManager;
+    private AvatarManager _avatarManager;
+
     public float texOffset;
 
     private void Awake()
@@ -103,7 +97,6 @@ public class BrickAttach : MonoBehaviour
         texOffset = Random.Range(0f, 1f);
         _props = new MaterialPropertyBlock();
         _brickUuid = GetComponent<BrickUuid>();
-        _brickSync = GetComponent<BuildingBrickSync>();
         _userSettings = UserSettings.GetInstance();
         placedBrickRenderer = GetComponent<PlacedBrickRenderer>();
         meshFilter = model.GetComponent<MeshFilter>();
@@ -131,10 +124,10 @@ public class BrickAttach : MonoBehaviour
 
     private void Start()
     {
-        _realtimeAvatarManager = LookupRealtimeAvatarManager.GetInstance();
+        _avatarManager = AvatarManager.GetInstance();
         OwnedPhysicsBricksStore.GetInstance().AddBrick(gameObject);
 
-        if (_brickSync == null && !isPlayerHead && headClientId == -1) // only for placed bricks
+        if (!isPlayerHead && headClientId == -1) // only for placed bricks
             ChunkedRenderer.GetInstance().AddBrickToRenderer(gameObject);
     }
 
@@ -146,12 +139,16 @@ public class BrickAttach : MonoBehaviour
         renderQueue = meshRenderer.sharedMaterial.renderQueue;
     }
 
+    public void SetUuid(string uuid) {
+        _brickUuid.uuid = uuid;
+    }
+
     public string GetUuid()
     {
         return _brickUuid.uuid;
     }
 
-    private void SetColor(Color32 color)
+    public void SetColor(Color32 color)
     {
         if (!model)
         {
@@ -227,7 +224,7 @@ public class BrickAttach : MonoBehaviour
             ConfigureNeighboringBrick(bricksAboveAttaches[i], bricksAbove[i], false);
         }
 
-        BrickSwapper.SwapToFakeBrick(gameObject, attachedToHeadClientId, _realtimeAvatarManager);
+        BrickSwapper.SwapToFakeBrick(gameObject, attachedToHeadClientId, _avatarManager);
 
         return true;
     }
@@ -267,8 +264,6 @@ public class BrickAttach : MonoBehaviour
 
     public void RecalculateRenderedGeometry()
     {
-        if (GetComponent<RealtimeView>()) return;
-
         // Figure out which pegs need to be enabled
         // Turn this into a stable lookup key
         // Check the BrickMeshCache to see if a mesh has already been computed
@@ -280,8 +275,8 @@ public class BrickAttach : MonoBehaviour
         // generated meshes don't batch well.
 
         // TODO: Probably shouldn't be using string concat for the cache key building here. Lots of garbage.
-
-        bool placed = !_brickSync;
+        
+        bool placed = !(placedBrickRenderer != null);
         bool performanceMode = _userSettings.SuperUltraPerformanceMode;
 
         string cacheKey = "";

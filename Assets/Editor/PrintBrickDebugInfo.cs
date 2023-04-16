@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using Normal.Realtime;
+﻿using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
 
@@ -17,7 +15,7 @@ public static class PrintBrickDebugInfo
         foreach (BrickAttach attach in attaches)
         {
             GameObject obj = attach.gameObject;
-            if (obj.GetComponent<RealtimeTransform>() != null)
+            if (attach.swapPrefab.Contains("Placed"))
             {
                 freeBricks.Add(obj);
             }

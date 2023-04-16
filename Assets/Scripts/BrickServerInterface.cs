@@ -2,14 +2,11 @@
 using UnityEngine.Networking;
 using System.Globalization;
 using System.Collections;
-using Normal.Realtime;
-using System.Linq;
 using UnityEngine;
 using System;
 
 public class BrickServerInterface : MonoBehaviour
 {
-    public RoomOwnershipSync roomOwnershipSync;
     private static BrickServerInterface _instance;
     private int _failedBricks = 0;
 
@@ -60,19 +57,19 @@ public class BrickServerInterface : MonoBehaviour
         return _instance;
     }
 
-    public void SendBrick(NormcoreRPC.Brick brick, Realtime realtime)
+    public void SendBrick(NormcoreRPC.Brick brick)
     {
-        _instance.StartCoroutine(SendBrickIEnum(brick, realtime));
+        _instance.StartCoroutine(SendBrickIEnum(brick));
     }
 
-    public void RemoveBrick(string uuid, Realtime realtime)
+    public void RemoveBrick(string uuid)
     {
-        _instance.StartCoroutine(RemoveBrickIEnum(uuid, realtime));
+        _instance.StartCoroutine(RemoveBrickIEnum(uuid));
     }
 
-    public void SetLocked(bool locked, Realtime realtime)
+    public void SetLocked(bool locked)
     {
-        _instance.StartCoroutine(SetLockedIEnum(locked, realtime));
+        _instance.StartCoroutine(SetLockedIEnum(locked));
     }
 
     public void SetNickname(string nickname)
@@ -83,12 +80,12 @@ public class BrickServerInterface : MonoBehaviour
     public IEnumerator SendException(string condition, string stacktrace, LogType type)
     {
         WWWForm form = new WWWForm();
-        Realtime realtime = Realtime.instances.First();
+        //Realtime realtime = Realtime.instances.First();
 
         string version = ReleaseVersion.VersionString();
         if (Application.isEditor) version += EditorExceptionSuffix;
 
-        form.AddField(RoomKey, realtime.room == null ? NullString : realtime.room.name);
+        //form.AddField(RoomKey, realtime.room == null ? NullString : realtime.room.name);
         form.AddField(UserIdKey, UserId.Get());
         form.AddField(VersionKey, version);
         form.AddField(ConditionKey, condition);
@@ -104,7 +101,7 @@ public class BrickServerInterface : MonoBehaviour
         // Debug.Log(request.downloadHandler.text);
     }
 
-    private IEnumerator SendBrickIEnum(NormcoreRPC.Brick brick, Realtime realtime)
+    private IEnumerator SendBrickIEnum(NormcoreRPC.Brick brick)
     {
         WWWForm form = new WWWForm();
 
@@ -122,11 +119,11 @@ public class BrickServerInterface : MonoBehaviour
         form.AddField(TypeKey, brick.type);
         form.AddField(MatIdKey, brick.matId);
         form.AddField(ColorKey, brick.color);
-        form.AddField(RoomKey, realtime.room.name);
+        //form.AddField(RoomKey, realtime.room.name);
         form.AddField(BrickIdKey, brick.uuid);
         form.AddField(UserIdKey, UserId.Get());
         form.AddField(HeadClientId, brick.headClientId);
-        form.AddField(TimestampKey, realtime.room.time.ToString(CultureInfo.InvariantCulture));
+        //form.AddField(TimestampKey, realtime.room.time.ToString(CultureInfo.InvariantCulture));
 
         UnityWebRequest request = UnityWebRequest.Post(BrickSubmitURL, form);
         yield return request.SendWebRequest();
@@ -142,7 +139,7 @@ public class BrickServerInterface : MonoBehaviour
             if (response.Contains("permissions"))
             {
                 Debug.LogError("Room is locked, setting lock in realtime db");
-                roomOwnershipSync.SetLocked(true);
+                //roomOwnershipSync.SetLocked(true);
             }
             _failedBricks += 1;
 
@@ -154,14 +151,14 @@ public class BrickServerInterface : MonoBehaviour
         }
     }
 
-    private IEnumerator RemoveBrickIEnum(string uuid, Realtime realtime)
+    private IEnumerator RemoveBrickIEnum(string uuid)
     {
         WWWForm form = new WWWForm();
 
         form.AddField(BrickIdKey, uuid);
-        form.AddField(RoomKey, realtime.room.name);
+        //form.AddField(RoomKey, realtime.room.name);
         form.AddField(UserIdKey, UserId.Get());
-        form.AddField(TimestampKey, realtime.room.time.ToString(CultureInfo.InvariantCulture));
+        //form.AddField(TimestampKey, realtime.room.time.ToString(CultureInfo.InvariantCulture));
 
         UnityWebRequest request = UnityWebRequest.Post(RemoveBricksURL, form);
         yield return request.SendWebRequest();
@@ -176,7 +173,7 @@ public class BrickServerInterface : MonoBehaviour
             if (response.Contains("permissions"))
             {
                 Debug.LogError("Room is locked, setting lock in realtime db");
-                roomOwnershipSync.SetLocked(true);
+                //roomOwnershipSync.SetLocked(true);
             }
 
             if (response.Contains("outdated"))
@@ -197,10 +194,10 @@ public class BrickServerInterface : MonoBehaviour
         }
     }
 
-    private IEnumerator SetLockedIEnum(bool locked, Realtime realtime)
+    private IEnumerator SetLockedIEnum(bool locked)
     {
         WWWForm form = new WWWForm();
-        form.AddField(RoomKey, realtime.room.name);
+        //form.AddField(RoomKey, realtime.room.name);
         form.AddField(UserIdKey, UserId.Get());
         form.AddField(LockedKey, locked.ToString());
 

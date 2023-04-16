@@ -9,13 +9,13 @@ language governing permissions and limitations under the license.
 
 ************************************************************************************/
 
+using UnityEngine.XR.Interaction.Toolkit;
 using System.Collections.Generic;
+using UnityEngine.Serialization;
 using System.Linq;
 using UnityEngine;
-using OVRTouchSample;
-using Normal.Realtime;
-using UnityEngine.Serialization;
-using UnityEngine.XR.Interaction.Toolkit;
+
+
 #if UNITY_EDITOR
 using UnityEngine.SceneManagement;
 #endif
@@ -78,8 +78,8 @@ namespace OVRTouchSample
         private void Start()
         {
             GameObject realtimeObject = GameObject.Find("Realtime");
-            RealtimeAvatarManager avatarManager = realtimeObject.GetComponent<RealtimeAvatarManager>();
-            if(avatarManager.localAvatar == avatar.GetComponent<RealtimeAvatar>()){
+            AvatarManager avatarManager = realtimeObject.GetComponent<AvatarManager>();
+            if(avatarManager.localAvatar == avatar.GetComponent<PlayerAvatar>()){
                 _isLocalHand = true;
             }
 
@@ -107,9 +107,10 @@ namespace OVRTouchSample
 
             OVRManager.InputFocusAcquired += OnInputFocusAcquired;
             OVRManager.InputFocusLost += OnInputFocusLost;
-#if UNITY_EDITOR
+            
+            #if UNITY_EDITOR
             OVRPlugin.SendEvent("custom_hand", (SceneManager.GetActiveScene().name == "CustomHands").ToString(), "sample_framework");
-#endif
+            #endif
         }
 
         private int _pointLockCounter;

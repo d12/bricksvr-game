@@ -1,5 +1,4 @@
 ﻿using System.Linq;
-using Normal.Realtime;
 using UnityEngine;
 using UnityEditor;
 
@@ -9,20 +8,17 @@ public static class TestSpawnLotsOShit
     [MenuItem("Debug/TEST SPAWN LOTS OF BRICKS AND SEND TO DATASTORE")]
     public static void Spawn()
     {
-        Realtime realtime = Realtime.instances.First();
+        NormcoreRPC.Brick serializedBrickObject = new NormcoreRPC.Brick()
+        {
+            matId = 3,
+            type = "4x2",
+            rot = Quaternion.identity
+        };
 
         for (int i = 0; i < 200; i++)
         {
-            NormcoreRPC.Brick serializedBrickObject = new NormcoreRPC.Brick()
-            {
-                matId = 3,
-                type = "4x2",
-                uuid = BrickId.FetchNewBrickID(),
-                pos = RandomBrickPos(),
-                rot = Quaternion.identity
-            };
-
-            BrickServerInterface.GetInstance().SendBrick(serializedBrickObject, realtime);
+            serializedBrickObject.pos = RandomBrickPos();
+            serializedBrickObject.uuid = BrickId.FetchNewBrickID();
             GameObject newBrick = PlacedBrickCreator.CreateFromBrickObject(serializedBrickObject);
         }
     }

@@ -1,11 +1,8 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using Normal.Realtime;
-using UnityEngine;
+﻿using UnityEngine;
 
 public static class PlacedBrickCreator
 {
-    private static NormalSessionManager _sessionManager;
+    private static SessionManager _sessionManager;
 
     public static GameObject CreateFromBrickObject(NormcoreRPC.Brick brick, bool recalculateMesh = true)
     {
@@ -21,7 +18,7 @@ public static class PlacedBrickCreator
         }
         else
         {
-            RealtimeAvatarManager avatarManager = LookupRealtimeAvatarManager.GetInstance();
+            AvatarManager avatarManager = AvatarManager.GetInstance();
             if (!avatarManager.avatars.ContainsKey(headClientId))
             {
                 Debug.LogError("Got a brick parented to a user that no longer exists!");
@@ -47,7 +44,7 @@ public static class PlacedBrickCreator
         BrickMeshRecalculator.GetInstance().AddAttach(newBrickAttach);
 
         if (_sessionManager == null)
-            _sessionManager = GameObject.FindWithTag("NormalSessionManager").GetComponent<NormalSessionManager>();
+            _sessionManager = SessionManager.GetInstance();
 
         BrickSounds sounds = BrickSounds.GetInstance();
 
@@ -67,5 +64,13 @@ public static class PlacedBrickCreator
             newBrickAttach.NotifyNearbyBricksToRecalculateMesh();
 
         return brickObject;
+    }
+
+    public static void DestroyBrickObject(GameObject gameObject) {
+        SessionManager sessionManager = SessionManager.GetInstance();
+        Session session = sessionManager.session;
+
+        if(session.isSinglePlayer)
+            GameObject.Destroy(gameObject);
     }
 }

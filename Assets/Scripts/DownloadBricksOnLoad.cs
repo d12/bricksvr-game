@@ -1,15 +1,13 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
-using Normal.Realtime;
-using TMPro;
-using UnityEngine;
+﻿using System.Collections.Generic;
 using UnityEngine.Networking;
+using System.Collections;
+using UnityEngine;
+using System;
+using TMPro;
 
 public class DownloadBricksOnLoad : MonoBehaviour
 {
-    private Realtime _realtime;
+    private Session _session;
     private string _roomDataJson;
     private TextMeshProUGUI _joiningStatusText;
 
@@ -28,7 +26,7 @@ public class DownloadBricksOnLoad : MonoBehaviour
 
     void Start()
     {
-        _realtime = GetComponent<Realtime>();
+        _session = SessionManager.GetInstance().session;
         // if (Application.platform != RuntimePlatform.Android)
         //     _downloadSpeedMultiplier = 3;
 
@@ -111,9 +109,6 @@ public class DownloadBricksOnLoad : MonoBehaviour
 
         chunkedRenderer.enabled = true;
 
-        GameObject.FindWithTag("RoomOwnershipSync").GetComponent<RoomOwnershipSync>()
-            .SetOwnerIdPrefix(parsedResponse.ownerShortIdPrefix);
-
         // TODO: Normcore sometimes gets out of sync with the Firebase locked state. Make them sync here.
 
         isDoneDownloading = true;
@@ -127,16 +122,15 @@ public class DownloadBricksOnLoad : MonoBehaviour
             return;
         }
 
-        int clientId = _realtime.clientID;
+        int clientId = _session.clientID;
 
         BrickAttach[] createdBricks = new BrickAttach[bricksParentedToHeads.Count];
-        RealtimeAvatarManager avatarManager = LookupRealtimeAvatarManager.GetInstance();
+        AvatarManager avatarManager = AvatarManager.GetInstance();
         for(int i = 0; i < bricksParentedToHeads.Count; i++)
         {
             if ((bricksParentedToHeads[i].headClientId == clientId) || !avatarManager.avatars.ContainsKey(bricksParentedToHeads[i].headClientId))
             {
                 // Users should never have bricks on their head on load
-                BrickServerInterface.GetInstance().RemoveBrick(bricksParentedToHeads[i].uuid, _realtime);
             }
             else
             {

@@ -10,7 +10,6 @@ public class EnableRoomMenuForOwner : MonoBehaviour
     public Toggle lockRoomToggle;
     public Toggle lowGravityToggle;
     public Toggle movingThroughBricksAllowedToggle;
-    public RoomOwnershipSync ownershipSync;
     public TextMeshProUGUI menuSubtitle;
 
     private const string OwnerText = "You are the room owner, so you can make changes.";
@@ -22,16 +21,15 @@ public class EnableRoomMenuForOwner : MonoBehaviour
         {
             if (gameObject.activeSelf)
             {
-                bool isOwner = ownershipSync.IsRoomOwner();
+                // TODO: Multiplayer support.
+                bool isOwner = true; //ownershipSync.IsRoomOwner();
 
-                lockRoomToggle.interactable = isOwner;
-                lockRoomToggle.SetIsOnWithoutNotify(ownershipSync.Locked());
-
+                // TODO: Remember to make a room config for single-player games.
                 lowGravityToggle.interactable = isOwner;
-                lowGravityToggle.SetIsOnWithoutNotify(ownershipSync.LowGravity());
+                lowGravityToggle.SetIsOnWithoutNotify(true);
 
                 movingThroughBricksAllowedToggle.interactable = isOwner;
-                movingThroughBricksAllowedToggle.SetIsOnWithoutNotify(ownershipSync.BlockedFromMovingThroughBricks());
+                movingThroughBricksAllowedToggle.SetIsOnWithoutNotify(false);
 
                 menuSubtitle.text = isOwner ? OwnerText : NotOwnerText;
             }

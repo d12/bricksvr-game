@@ -1,8 +1,5 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using Normal.Realtime;
 using UnityEngine;
 
 public class OwnedPhysicsBricksStore : MonoBehaviour
@@ -18,7 +15,7 @@ public class OwnedPhysicsBricksStore : MonoBehaviour
 
     private const int MaxPhysicsBricks = 10;
 
-    private List<(GameObject, RealtimeTransform)> _bricks = new List<(GameObject, RealtimeTransform)>();
+    private List<GameObject> _bricks = new List<GameObject>();
     private Dictionary<GameObject, bool> _bricksDict = new Dictionary<GameObject, bool>();
     private BrickDestroyer _brickDestroyer;
 
@@ -33,13 +30,9 @@ public class OwnedPhysicsBricksStore : MonoBehaviour
         if (_bricksDict.ContainsKey(o))
             return;
 
-        RealtimeTransform rt = o.GetComponent<RealtimeTransform>();
-        if (rt == null || !rt.isOwnedLocallySelf)
-            return;
-
         RemoveDeadBricks();
 
-        _bricks.Add((o, rt));
+        _bricks.Add(o);
         _bricksDict.Add(o, true);
 
         if (_bricks.Count > MaxPhysicsBricks)
@@ -50,7 +43,7 @@ public class OwnedPhysicsBricksStore : MonoBehaviour
 
     private void RemoveDeadBricks()
     {
-        _bricks.RemoveAll(tuple => tuple.Item1 == null || tuple.Item2 == null || !tuple.Item2.isOwnedLocallySelf);
+        _bricks.RemoveAll(brick => brick == null);
         foreach (GameObject o in _bricksDict.Keys.Where(o => o == null).ToArray())
         {
             _bricksDict.Remove(o);
@@ -59,12 +52,12 @@ public class OwnedPhysicsBricksStore : MonoBehaviour
 
     private void DeleteLastBrick()
     {
-        (GameObject o, RealtimeTransform rt) = _bricks[0];
+        GameObject brick = _bricks[0];
 
         _bricks.RemoveAt(0);
-        _bricksDict.Remove(o);
+        _bricksDict.Remove(brick);
 
-        if(o != null)
-            _brickDestroyer.DelayedDestroy(o);
+        if(brick != null)
+            _brickDestroyer.DelayedDestroy(brick);
     }
 }

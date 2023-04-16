@@ -15,7 +15,7 @@ public class ExportManager : MonoBehaviour
     public TextMeshProUGUI urlText;
     public Button urlButton;
 
-    public NormalSessionManager normalSessionManager;
+    public SessionManager SessionManager;
 
     private const string InitialTopText = "Exported files include all bricks and materials. You can open these files in Blender or other programs.";
 
@@ -46,7 +46,7 @@ public class ExportManager : MonoBehaviour
 
     public IEnumerator StartExportCoroutine()
     {
-        CoroutineWithData cd = new CoroutineWithData(this, BrickServerInterface.GetInstance().StartExport(normalSessionManager.GetRoomName()));
+        CoroutineWithData cd = new CoroutineWithData(this, BrickServerInterface.GetInstance().StartExport(SessionManager.GetRoomName()));
         yield return cd.coroutine;
 
         StartExportResponse response = (StartExportResponse) cd.result;
@@ -63,7 +63,7 @@ public class ExportManager : MonoBehaviour
         }
         else
         {
-            downloadUrl = $"https://bricksvr.com/exports/{normalSessionManager.GetRoomName()}";
+            downloadUrl = $"https://bricksvr.com/exports/{SessionManager.GetRoomName()}";
             topText.text = $"Your export has been started!\n\nYou can download the files at:";
             urlText.text = downloadUrl;
             urlButton.enabled = true;

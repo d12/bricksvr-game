@@ -1,9 +1,8 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
-using Normal.Realtime.Utility;
-using UnityEngine;
+﻿using System.Collections.Generic;
 using UnityEngine.Rendering;
+using System.Linq;
+using UnityEngine;
+
 
 
 public class PlacedBrickRendererManagerTwo : MonoBehaviour
@@ -96,7 +95,7 @@ public class PlacedBrickRendererManagerTwo : MonoBehaviour
 
         // Debug.Log("Frame");
 
-        foreach ((Mesh mesh, MeshRendererQueue renderQueue) in _meshToRendererQueue)
+        foreach ((Mesh mesh, MeshRendererQueue renderQueue) in _meshToRendererQueue.Select(x => (x.Key, x.Value)))
         {
             renderQueue.Render(_objectsToBeRemoved[renderQueue]);
             if(_objectsToBeRemoved[renderQueue].Count > 0)

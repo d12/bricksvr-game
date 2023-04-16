@@ -1,7 +1,6 @@
-﻿using System.Collections;
+﻿using UnityEngine.XR.Interaction.Toolkit;
+using System.Collections;
 using UnityEngine;
-using UnityEngine.XR.Interaction.Toolkit;
-using Normal.Realtime;
 
 
 public class NetworkedInteractor : MonoBehaviour
@@ -25,17 +24,17 @@ public class NetworkedInteractor : MonoBehaviour
 
     private void OnGrab(XRBaseInteractable interactable)
     {
-        RealtimeTransform rt = interactable.GetComponent<RealtimeTransform>();
-        if (rt != null)
-        {
-            rt.RequestOwnership();
-            if (!rt.isOwnedLocallySelf)
-            {
-                Debug.Log("Attempted to pick up object but didn't obtain ownership. Dropping for 0.5s");
-                interactable.interactionLayerMask = 0;
-                StartCoroutine(DelayedReEnableInteractable(interactable));
-            }
-        }
+        //RealtimeTransform rt = interactable.GetComponent<RealtimeTransform>();
+        //if (rt != null)
+        //{
+        //    rt.RequestOwnership();
+        //    if (!rt.isOwnedLocallySelf)
+        //    {
+        //        Debug.Log("Attempted to pick up object but didn't obtain ownership. Dropping for 0.5s");
+        //        interactable.interactionLayerMask = 0;
+        //        StartCoroutine(DelayedReEnableInteractable(interactable));
+        //    }
+        //}
     }
 
     private static IEnumerator DelayedReEnableInteractable(XRBaseInteractable interactable)

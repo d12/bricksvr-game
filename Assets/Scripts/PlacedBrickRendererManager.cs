@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
-using Normal.Realtime.Utility;
-using UnityEngine;
 using UnityEngine.Rendering;
+using UnityEngine;
+using System.Linq;
 
 // Note that the PlacedBrickRendererManager does not render pegs automatically.
 // Pegs must be passed in using AddBrick, and removed using RemoveBrick.
@@ -87,7 +87,7 @@ public class PlacedBrickRendererManager : MonoBehaviour
     {
         if (!renderingEnabled) return;
 
-        foreach ((Mesh key, MeshRenderBucket renderBucket) in _meshToRenderBuckets)
+        foreach ((Mesh key, MeshRenderBucket renderBucket) in _meshToRenderBuckets.Select(x => (x.Key, x.Value)))
         {
             PerformBucketRender(key, renderBucket);
         }

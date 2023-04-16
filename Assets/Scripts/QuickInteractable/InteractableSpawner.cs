@@ -1,10 +1,5 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using System.Security;
-using Normal.Realtime;
-using UnityEditor;
+﻿using UnityEngine.XR.Interaction.Toolkit;
 using UnityEngine;
-using UnityEngine.XR.Interaction.Toolkit;
 
 public class InteractableSpawner : QuickInteractable
 {
@@ -39,23 +34,17 @@ public class InteractableSpawner : QuickInteractable
 
     public GameObject CreateBrick()
     {
-        GameObject brick = Realtime.Instantiate(
-            brickPrefabName,
+        GameObject brick = GameObject.Instantiate(
+            Resources.Load<GameObject>(brickPrefabName),
             transform.position,
-            transform.rotation,
-            ownedByClient: false,
-            preventOwnershipTakeover: false,
-            destroyWhenOwnerOrLastClientLeaves: true,
-            useInstance: null
+            transform.rotation
         );
 
         brick.transform.Rotate(_brickRotation, Space.Self);
 
-        brick.GetComponent<RealtimeView>().ClearOwnership();
-        BuildingBrickSync sync = brick.GetComponent<BuildingBrickSync>();
-        sync.EnableNewColors();
-        sync.SetColor(ColorInt.ColorToInt(BrickColorMap.ColorFromID(materialId)));
-        sync.SetUuid(BrickId.FetchNewBrickID());
+        BrickAttach attach = brick.GetComponent<BrickAttach>();
+        attach.Color = BrickColorMap.ColorFromID(materialId);
+        brick.GetComponent<BrickUuid>().uuid = BrickId.FetchNewBrickID();
 
         return brick;
     }

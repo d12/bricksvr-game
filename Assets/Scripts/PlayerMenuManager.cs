@@ -1,16 +1,13 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using Normal.Realtime;
 using UnityEngine;
 
 public class PlayerMenuManager : MonoBehaviour
 {
-    public RealtimeAvatarManager avatarManager;
+    public AvatarManager avatarManager;
     public GameObject playerEntryPrefab;
-    public RoomOwnershipSync ownershipSync;
 
-    public List<RealtimeAvatar> users = new List<RealtimeAvatar>();
+    public List<PlayerAvatar> users = new List<PlayerAvatar>();
 
     public GameObject listParent;
     private Transform _listParentTransform;
@@ -43,7 +40,7 @@ public class PlayerMenuManager : MonoBehaviour
 
     private void RepopulateUserList()
     {
-        users = avatarManager.avatars.Values.OrderBy(avatar => !avatar.isOwnedLocallyInHierarchy).ToList();
+        users = avatarManager.avatars.Values.OrderBy(avatar => !avatar.isLocal).ToList();
     }
 
     private void RebuildUI()
@@ -51,20 +48,20 @@ public class PlayerMenuManager : MonoBehaviour
         foreach (Transform t in _listParentTransform)
             Destroy(t.gameObject);
 
-        foreach (RealtimeAvatar avatar in users)
+        foreach (PlayerAvatar avatar in users)
         {
             GameObject newPlayerEntry = Instantiate(playerEntryPrefab, _listParentTransform);
             PlayerListItem playerListItem = newPlayerEntry.GetComponent<PlayerListItem>();
-            playerListItem.Initialize(avatar, ownershipSync);
+            playerListItem.Initialize(avatar);
         }
     }
 
-    private void UserJoined(RealtimeAvatarManager _, RealtimeAvatar avatar, bool isLocalAvatar)
+    private void UserJoined(PlayerAvatar avatar)
     {
         RefreshPlayerList();
     }
 
-    private void UserQuit(RealtimeAvatarManager _, RealtimeAvatar avatar, bool isLocalAvatar)
+    private void UserQuit(PlayerAvatar avatar)
     {
         RefreshPlayerList();
     }

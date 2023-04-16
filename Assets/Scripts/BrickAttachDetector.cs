@@ -1,11 +1,9 @@
-﻿using System;
-using System.Collections;
+﻿using UnityEngine.XR.Interaction.Toolkit;
 using System.Collections.Generic;
-using UnityEngine;
-using UnityEngine.XR.Interaction.Toolkit;
-using System.Linq;
-using Normal.Realtime;
 using UnityEngine.Serialization;
+using UnityEngine;
+using System.Linq;
+using System;
 
 public class BrickAttachDetector : MonoBehaviour
 {
@@ -14,8 +12,6 @@ public class BrickAttachDetector : MonoBehaviour
 
     public GameObject maleConnectorParent;
     public GameObject femaleConnectorParent;
-
-    private RoomOwnershipSync _roomOwnershipSync;
 
     public List<GameObject> _maleConnectors;
     public List<GameObject> _femaleConnectors;
@@ -48,7 +44,6 @@ public class BrickAttachDetector : MonoBehaviour
         // If we need any other colliders for physics purposes, put them on a child object and add them to Collider[] colliders.
         BoxCollider boxCollider = GetComponent<BoxCollider>();
         _collisionExtents = Vector3.Scale(boxCollider.size / 2, transform.lossyScale); // div by 2 because CheckBox expects halfextents.
-        _roomOwnershipSync = GameObject.FindWithTag("RoomOwnershipSync").GetComponent<RoomOwnershipSync>();
         _xrGrabInteractable = GetComponent<XRGrabInteractable>();
         _ownedPhysicsBricksStore = OwnedPhysicsBricksStore.GetInstance();
         _colliderOffset = boxCollider.center;
@@ -78,28 +73,19 @@ public class BrickAttachDetector : MonoBehaviour
     private void BrickGrabbed(XRBaseInteractor interactor)
     {
         if (skipGrabCallbacks) return;
-
-        if (GetComponent<RealtimeView>() == null) // Is this brick fake?
+            
+        foreach (Collider c in colliders)
         {
-            // not here anymore
-            // o.o
+            c.isTrigger = true;
         }
-        else
-        {
-            // Note that this isn't synced across clients, so we get some weird shit happening there.
-            foreach (Collider c in colliders)
-            {
-                c.isTrigger = true;
-            }
 
-            GetComponent<Rigidbody>().isKinematic = false;
+        GetComponent<Rigidbody>().isKinematic = false;
 
-            isBeingHeld = true;
-            isAttached = false;
+        isBeingHeld = true;
+        isAttached = false;
 
-            GetComponent<ShowSnappableBrickPositions>().enabled = true;
-            _ownedPhysicsBricksStore.AddBrick(gameObject);
-        }
+        GetComponent<ShowSnappableBrickPositions>().enabled = true;
+        _ownedPhysicsBricksStore.AddBrick(gameObject);
     }
 
     private void BrickReleased(XRBaseInteractor interactor)
@@ -150,33 +136,22 @@ public class BrickAttachDetector : MonoBehaviour
 
     private void EnableGravityIfUnowned()
     {
-        RealtimeTransform rt = GetComponent<RealtimeTransform>();
-        if (rt == null) return;
-
-        if (rt.ownerID == -1 || rt.isOwnedLocallySelf) // Owned by nobody or owned by ourselves
+        Wait.ForFrames(2, () =>
         {
-            Wait.ForFrames(2, () =>
-            {
-                if (!this) return;
-                if (_xrGrabInteractable.isSelected) return;
+            if (!this) return;
+            if (_xrGrabInteractable.isSelected) return;
 
-                rt.RequestOwnership();
-                Rigidbody rb = GetComponent<Rigidbody>();
-                rb.isKinematic = false;
-                rb.useGravity = true;
-            });
-        }
-        else
-        {
-            Debug.Log("Not re-enabling gravity because it is owned by " + rt.ownerID + ", our ID is " + rt.realtime.clientID);
-        }
+            Rigidbody rb = GetComponent<Rigidbody>();
+            rb.isKinematic = false;
+            rb.useGravity = true;
+        });
     }
 
     private readonly (bool, Vector3, Quaternion, Vector3) _nullResponse = (false, Vector3.zero, Quaternion.identity, Vector3.zero);
     // This is kind of gross
     public (bool canConnect, Vector3 pos, Quaternion rot, Vector3 connectionDirection) CheckIfCanConnect()
     {
-        if (!_roomOwnershipSync.IsUserAllowedToMakeChanges())
+        if (!SessionManager.GetInstance().session.canPlace)
             return _nullResponse;
 
         GameObject[] femaleConnectorsWithConnections = GetFemaleConnectorsWithConnections();

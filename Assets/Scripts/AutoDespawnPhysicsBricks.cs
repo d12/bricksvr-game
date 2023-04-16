@@ -1,8 +1,6 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using Normal.Realtime;
+﻿using UnityEngine.XR.Interaction.Toolkit;
+using System.Collections;
 using UnityEngine;
-using UnityEngine.XR.Interaction.Toolkit;
 
 public class AutoDespawnPhysicsBricks : MonoBehaviour
 {
@@ -27,7 +25,7 @@ public class AutoDespawnPhysicsBricks : MonoBehaviour
         if (lastPositionCheckCount > 5 && this)
         {
             BrickStore.GetInstance().Delete(GetComponent<BrickAttach>().GetUuid());
-            Realtime.Destroy(gameObject);
+            PlacedBrickCreator.DestroyBrickObject(gameObject);
             yield return null;
         }
         else

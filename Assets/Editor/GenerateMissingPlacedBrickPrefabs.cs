@@ -1,9 +1,5 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using Normal.Realtime;
-using UnityEditor;
+﻿using UnityEditor;
 using UnityEngine;
-using UnityEngine.Experimental.TerrainAPI;
 
 public static class GenerateMissingPlacedBrickPrefabs
 {
@@ -17,7 +13,7 @@ public static class GenerateMissingPlacedBrickPrefabs
         }
 
         GameObject originalBrick = Selection.activeGameObject;
-        if (!originalBrick.GetComponent<BrickAttach>() || !originalBrick.GetComponent<RealtimeView>())
+        if (!originalBrick.GetComponent<BrickAttach>())
         {
             Debug.LogError("Selected brick is not a valid unplaced brick.");
             return;

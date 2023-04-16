@@ -6,7 +6,7 @@ using UnityEngine;
 public class RoomCodeScreen : MonoBehaviour
 {
     public TextMeshProUGUI text;
-    public NormalSessionManager normalSessionManager;
+    public SessionManager SessionManager;
     public GameObject loadingScreen;
     private string _code;
 
@@ -14,7 +14,7 @@ public class RoomCodeScreen : MonoBehaviour
     {
         gameObject.SetActive(false);
         loadingScreen.SetActive(true);
-        normalSessionManager.JoinRoomWrapper(_code);
+        SessionManager.JoinRoomWrapper(_code);
     }
 
     public void SetRoomCode(string code)

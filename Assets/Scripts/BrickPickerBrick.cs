@@ -1,12 +1,9 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using Normal.Realtime;
-using TMPro;
-using UnityEngine;
+﻿using UnityEngine.XR.Interaction.Toolkit;
 using UnityEngine.Serialization;
 using UnityEngine.UI;
-using UnityEngine.XR.Interaction.Toolkit;
+using UnityEngine;
+using System;
+using TMPro;
 
 public class BrickPickerBrick : QuickInteractable
 {
@@ -70,23 +67,17 @@ public class BrickPickerBrick : QuickInteractable
         if (!_manager.IsMenuFullyOpen)
             return;
 
-        GameObject brick = Realtime.Instantiate(
-            _brickData.PrefabName,
+        GameObject brick = GameObject.Instantiate(
+            Resources.Load<GameObject>(_brickData.PrefabName),
             interactor.transform.position,
-            _brickMeshRenderer.transform.rotation,
-            ownedByClient: false,
-            preventOwnershipTakeover: false,
-            destroyWhenOwnerOrLastClientLeaves: true,
-            useInstance: null
+            _brickMeshRenderer.transform.rotation
         );
 
         brick.GetComponent<Rigidbody>().isKinematic = false;
 
-        brick.GetComponent<RealtimeView>().ClearOwnership();
-        BuildingBrickSync sync = brick.GetComponent<BuildingBrickSync>();
-        sync.EnableNewColors();
-        sync.SetColor(ColorInt.ColorToInt(_color));
-        sync.SetUuid(BrickId.FetchNewBrickID());
+        BrickAttach attach = brick.GetComponent<BrickAttach>();
+        attach.SetColor(_color);
+        attach.SetUuid(BrickId.FetchNewBrickID());
 
         FadeObjectScaleOnSpawn fadeComponent = brick.AddComponent<FadeObjectScaleOnSpawn>();
         fadeComponent.objectToScale = brick.transform.Find("CombinedModel").gameObject;

@@ -1,9 +1,9 @@
 ﻿using UnityEngine.XR.Interaction.Toolkit;
 using System.Collections.Generic;
-using Normal.Realtime.Utility;
 using System.Collections;
 using UnityEngine.UI;
 using UnityEngine;
+using System.Linq;
 using System;
 
 public class BrickPickerManager : MonoBehaviour
@@ -26,7 +26,7 @@ public class BrickPickerManager : MonoBehaviour
 
     public GameObject tilePrefab;
 
-    public NormalSessionManager normalSessionManager;// Find info about the in-game menu. We shouldn't open the brick menu if the in-game menu is open.
+    public SessionManager SessionManager;// Find info about the in-game menu. We shouldn't open the brick menu if the in-game menu is open.
 
     public GameObject leftHand;
     public GameObject rightHand;
@@ -96,7 +96,7 @@ public class BrickPickerManager : MonoBehaviour
 
     private void LateUpdate()
     {
-        if (!normalSessionManager.Connected() || normalSessionManager.InGameMenuUp()) return;
+        if (!SessionManager.Playing() || SessionManager.InGameMenuUp()) return;
 
         if(_holdingMenu)
             RepositionMenu(_holdingMenuWithLeftHand);
@@ -220,7 +220,7 @@ public class BrickPickerManager : MonoBehaviour
     {
         SetSliders(_activeColorPickerSaveSpot.GetColor());
 
-        foreach ((string tabName, MenuTab tab) in _tabs)
+        foreach ((string tabName, MenuTab tab) in _tabs.Select(x => (x.Key, x.Value)))
         {
             InitializeTab(tabName);
             EnableTab(tabName);
@@ -229,7 +229,7 @@ public class BrickPickerManager : MonoBehaviour
         yield return 0;
         yield return 0;
 
-        foreach ((string tabName, MenuTab tab) in _tabs)
+        foreach ((string tabName, MenuTab tab) in _tabs.Select(x => (x.Key, x.Value)))
         {
             DisableTab(tabName);
         }

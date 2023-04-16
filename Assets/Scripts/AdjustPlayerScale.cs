@@ -1,11 +1,11 @@
-﻿using Normal.Realtime;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.XR.Interaction.Toolkit;
 
 public class AdjustPlayerScale : MonoBehaviour
 {
-    public Realtime realtime;
-    public RealtimeAvatarManager realtimeAvatarManager;
+    public Session _session;
+    public AvatarManager avatarManager;
+
     public JoystickLocomotion joystickLocomotion;
     public Camera headCamera;
     public XRRig xrRig;
@@ -45,7 +45,7 @@ public class AdjustPlayerScale : MonoBehaviour
 
     public void Start()
     {
-        realtime.didConnectToRoom += DidConnectToRoom;
+        _session.didSessionStart += DidConnectToRoom;
     }
 
     public float GetScale()
@@ -66,7 +66,7 @@ public class AdjustPlayerScale : MonoBehaviour
 
     public void ChangePlayerScale()
     {
-        if (realtime.connected == false)
+        if (_session.isPlaying == false)
             return;
 
         Vector3 scaleVector = new Vector3(_scale, _scale, _scale);
@@ -119,7 +119,7 @@ public class AdjustPlayerScale : MonoBehaviour
         movementVignette.SetPlayerScale(_scale);
     }
 
-    private void DidConnectToRoom(Realtime _)
+    private void DidConnectToRoom(Session session)
     {
         ChangePlayerScale();
     }

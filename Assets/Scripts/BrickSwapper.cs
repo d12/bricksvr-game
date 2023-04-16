@@ -1,18 +1,10 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using System.Globalization;
+﻿using UnityEngine;
 using System.Linq;
-using System.Net.Mail;
-using Normal.Realtime;
-using UnityEngine;
-using UnityEngine.Networking;
 
 public static class BrickSwapper
 {
     public static GameObject SwapToRealBrick(GameObject brick)
     {
-        if (brick.GetComponent<RealtimeView>() != null) return null; // Brick is already a real brick lol
-
         BrickAttach brickAttach = brick.GetComponent<BrickAttach>();
         if (!brickAttach)
             return null;
@@ -26,23 +18,17 @@ public static class BrickSwapper
         // DestroyBrickOverRPC(serializedBrickObject);
 
         // Remove the brick from the datastore since the datastore specifically stores PLACED bricks
-        BrickServerInterface.GetInstance().RemoveBrick(brickAttach.GetUuid(), Realtime.instances.First());
+        BrickServerInterface.GetInstance().RemoveBrick(brickAttach.GetUuid());
 
-        GameObject newBrick = Realtime.Instantiate(
-            brickAttach.swapPrefab,
+        GameObject newBrick = GameObject.Instantiate(
+            Resources.Load<GameObject>(brickAttach.swapPrefab),
             t.position,
-            t.rotation,
-            ownedByClient: false,
-            preventOwnershipTakeover: false,
-            destroyWhenOwnerOrLastClientLeaves: true,
-            useInstance: null);
-        BuildingBrickSync newBrickSync = newBrick.GetComponent<BuildingBrickSync>();
-        // newBrickSync.CopyFieldsFromSync(brick.GetComponent<BuildingBrickSync>());
+            t.rotation
+        );
 
-        newBrickSync.EnableNewColors();
-        newBrickSync.SetColor(ColorInt.Color32ToInt(brickAttach.Color));
-        newBrickSync.SetUuid(brickAttach.GetUuid());
-        newBrickSync.SetAttached(false);
+        BrickAttach attach = newBrick.GetComponent<BrickAttach>();
+        attach.Color = (brickAttach.Color);
+        attach.SetUuid(brickAttach.GetUuid());
 
         newBrick.GetComponent<BrickAttach>().texOffset = brickAttach.texOffset;
 
@@ -53,10 +39,8 @@ public static class BrickSwapper
         return newBrick;
     }
 
-    public static GameObject SwapToFakeBrick(GameObject brick, int headClientId = -1, RealtimeAvatarManager avatarManager = null)
+    public static GameObject SwapToFakeBrick(GameObject brick, int headClientId = -1, AvatarManager avatarManager = null)
     {
-        if (brick.GetComponent<RealtimeView>() == null) return null; // Brick is already fake
-
         BrickAttach brickAttach = brick.GetComponent<BrickAttach>();
 
         NormcoreRPC.Brick serializedBrickObject = new NormcoreRPC.Brick()
@@ -79,12 +63,9 @@ public static class BrickSwapper
             serializedBrickObject.rot = brick.transform.localRotation;
         }
 
-        Realtime realtime = Realtime.instances.First();
-
         if (!TutorialManager.GetInstance().IsTutorialRunning())
         {
-            CreateBrickOverRPC(serializedBrickObject, realtime);
-            BrickServerInterface.GetInstance().SendBrick(serializedBrickObject, realtime);
+            BrickServerInterface.GetInstance().SendBrick(serializedBrickObject);
         }
 
         GameObject newBrick = PlacedBrickCreator.CreateFromBrickObject(serializedBrickObject);
@@ -93,37 +74,5 @@ public static class BrickSwapper
         brickAttach.DelayedDestroy();
 
         return newBrick;
-    }
-
-    private static void CreateBrickOverRPC(NormcoreRPC.Brick brick, Realtime realtime)
-    {
-        NormcoreRPC.RPCMessage rpcMessage = new NormcoreRPC.RPCMessage()
-        {
-            type = "create",
-            brick = brick
-        };
-
-        SendMessageOverRPC(rpcMessage, realtime);
-    }
-
-    private static void DestroyBrickOverRPC(NormcoreRPC.Brick brick, Realtime realtime)
-    {
-        NormcoreRPC.RPCMessage rpcMessage = new NormcoreRPC.RPCMessage()
-        {
-            type = "destroy",
-            brick = brick
-        };
-
-        SendMessageOverRPC(rpcMessage, realtime);
-    }
-
-    private static void SendMessageOverRPC(NormcoreRPC.RPCMessage rpcMessage, Realtime realtime)
-    {
-        string message = JsonUtility.ToJson(rpcMessage);
-        message = $"{message.Length}@{message}";
-        byte[] bytes = System.Text.Encoding.UTF8.GetBytes(message);
-
-        // Debug.Log($"Sending message over RPC: {message}");
-        realtime.room.SendRPCMessage(bytes, bytes.Length, true);
     }
 }

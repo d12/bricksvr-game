@@ -1,8 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using Normal.Realtime;
-using UnityEngine;
-using UnityEngine.Experimental.TerrainAPI;
+﻿using UnityEngine;
 
 public class Hammer : MonoBehaviour
 {
@@ -38,8 +34,6 @@ public class Hammer : MonoBehaviour
             // Performance optimization: Need to pre-build these real bricks
             GameObject brick = BrickSwapper.SwapToRealBrick(c.gameObject);
             if (brick == null) continue;
-
-            brick.GetComponent<RealtimeTransform>().RequestOwnership();
 
             Rigidbody rb = brick.GetComponent<Rigidbody>();
             rb.isKinematic = false;

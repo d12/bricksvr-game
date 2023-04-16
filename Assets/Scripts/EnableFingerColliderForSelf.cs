@@ -1,17 +1,13 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using Normal.Realtime;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class EnableFingerColliderForSelf : MonoBehaviour
 {
-    public RealtimeAvatar realtimeAvatar;
+    public PlayerAvatar realtimeAvatar;
     public Collider fingerCollider;
 
-    // Start is called before the first frame update
     private void Start()
     {
-        if (!realtimeAvatar.isOwnedLocallyInHierarchy)
+        if (!realtimeAvatar.isLocal)
         {
             fingerCollider.enabled = false;
         }

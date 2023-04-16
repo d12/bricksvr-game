@@ -1,11 +1,9 @@
-using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Net.Mail;
-using Normal.Realtime;
 using UnityEngine;
 using UnityEditor;
+using System.Linq;
+using System.IO;
+using System;
+
 
 public static class PrintBricks
 {
@@ -23,9 +21,9 @@ public static class PrintBricks
         }).ToArray();
 
         BrickCollectionJson jsonObject = new BrickCollectionJson()
-            {bricks = bricks, room = Realtime.instances.First().room.name};
+            {bricks = bricks, room = SessionManager.GetInstance().session.name};
 
-        string path = $"Assets/Resources/{Realtime.instances.First().room.name}";
+        string path = $"Assets/Resources/{SessionManager.GetInstance().session.name}";
         StreamWriter writer = new StreamWriter(path, false);
         writer.WriteLine(JsonUtility.ToJson(jsonObject));
         writer.Close();

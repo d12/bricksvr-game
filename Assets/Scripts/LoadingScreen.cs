@@ -7,7 +7,7 @@ using UnityEngine.UI;
 
 public class LoadingScreen : MonoBehaviour
 {
-    public NormalSessionManager normalSessionManager;
+    public SessionManager SessionManager;
     public TextMeshProUGUI loadingText;
     public GameObject backButton;
     public RoomCodeScreen roomCodeScreen;
@@ -48,8 +48,8 @@ public class LoadingScreen : MonoBehaviour
         if (response.connectivityError || response.upstreamError)
         {
             loadingText.text = response.upstreamError
-                ? NormalSessionManager.UpstreamErrorText
-                : NormalSessionManager.NetworkErrorText;
+                ? SessionManager.UpstreamErrorText
+                : SessionManager.NetworkErrorText;
             backButton.SetActive(true);
         } else if (!string.IsNullOrEmpty(response.error))
         {

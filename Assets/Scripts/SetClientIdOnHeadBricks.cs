@@ -1,15 +1,11 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using Normal.Realtime;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class SetClientIdOnHeadBricks : MonoBehaviour
 {
-    public RealtimeView rtView;
-    // Start is called before the first frame update
+    // Add multiplayer support later.
     void Start()
     {
-        int clientId = rtView.ownerIDInHierarchy;
+        int clientId = -1;
 
         BrickAttach[] attaches = GetComponentsInChildren<BrickAttach>();
         foreach (BrickAttach attach in attaches)

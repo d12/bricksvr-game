@@ -1,17 +1,15 @@
-﻿using System;
-using System.Collections;
+﻿using UnityEngine.XR.Interaction.Toolkit;
 using System.Collections.Generic;
 using System.Linq;
-using Normal.Realtime;
 using UnityEngine;
-using UnityEngine.XR.Interaction.Toolkit;
+using System;
 
 public class HandBrickSpawner : MonoBehaviour
 {
     public bool leftHand;
     public GameObject spawnLocation;
     public AudioClip sound;
-    public NormalSessionManager normalSessionManager;
+    public SessionManager SessionManager;
 
     private BrickHover _brickHover;
 
@@ -23,7 +21,7 @@ public class HandBrickSpawner : MonoBehaviour
 
     private HapticsManager _hapticsManager;
 
-    public Realtime _realtime;
+    public Session _session;
 
     public int spawnerSetIndex;
 
@@ -55,7 +53,7 @@ public class HandBrickSpawner : MonoBehaviour
     // Update is called once per frame
     private void Update()
     {
-        if (!_realtime.connected) return;
+        if (!_session.isPlaying) return;
 
         foreach (OVRInput.Button button in _buttons)
         {
@@ -81,7 +79,7 @@ public class HandBrickSpawner : MonoBehaviour
     private void HandleButtonHold(OVRInput.Button button)
     {
         if (_interactor.selectTarget) return;
-        if (normalSessionManager.InGameMenuUp()) return;
+        if (SessionManager.InGameMenuUp()) return;
 
         ButtonDownInfo info = _infoForButtons[button];
         if (info.ButtonHoldCallbackCalled) return;
@@ -115,31 +113,26 @@ public class HandBrickSpawner : MonoBehaviour
     private void HandleButtonPress(OVRInput.Button button)
     {
         if (_interactor.selectTarget) return;
-        if (normalSessionManager.InGameMenuUp()) return;
+        if (SessionManager.InGameMenuUp()) return;
 
         ButtonDownInfo info = _infoForButtons[button];
 
         if (String.IsNullOrEmpty(info.SavedPrefabName)) return;
 
-        GameObject brick = Realtime.Instantiate(
-            info.SavedPrefabName,
+        GameObject brick = GameObject.Instantiate(
+            Resources.Load<GameObject>(info.SavedPrefabName),
             spawnLocation.transform.position,
-            spawnLocation.transform.rotation,
-            ownedByClient: true,
-            preventOwnershipTakeover: false,
-            destroyWhenOwnerOrLastClientLeaves: true,
-            useInstance: null);
+            spawnLocation.transform.rotation
+        );
 
         BrickData.Brick brickData = BrickData.BrickByPrefabName(info.SavedPrefabName);
 
         brick.transform.Rotate(brickData.Rotation, Space.Self);
         brick.transform.localPosition += brickData.HandSpawnerPositionOffset;
 
-        brick.GetComponent<RealtimeView>().ClearOwnership();
-        BuildingBrickSync sync = brick.GetComponent<BuildingBrickSync>();
-        sync.EnableNewColors();
-        sync.SetColor(info.SavedColor);
-        sync.SetUuid(BrickId.FetchNewBrickID());
+        BrickAttach attach = brick.GetComponent<BrickAttach>();
+        attach.Color = ColorInt.IntToColor32(info.SavedColor);
+        brick.GetComponent<BrickUuid>().uuid = BrickId.FetchNewBrickID();
         brick.GetComponent<Rigidbody>().isKinematic = false;
     }
 

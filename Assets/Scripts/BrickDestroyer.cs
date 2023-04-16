@@ -1,8 +1,6 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using Normal.Realtime;
+﻿using UnityEngine.XR.Interaction.Toolkit;
+using System.Collections;
 using UnityEngine;
-using UnityEngine.XR.Interaction.Toolkit;
 
 public class BrickDestroyer : MonoBehaviour
 {
@@ -46,14 +44,7 @@ public class BrickDestroyer : MonoBehaviour
         yield return new WaitForEndOfFrame();
         yield return new WaitForEndOfFrame();
 
-        if (obj.GetComponent<RealtimeView>() == null)
-        {
-            GameObject.Destroy(obj);
-        }
-        else
-        {
-            Realtime.Destroy(obj);
-        }
+        PlacedBrickCreator.DestroyBrickObject(obj);
 
         yield return null;
         yield return null;

@@ -1,20 +1,16 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using Normal.Realtime;
+﻿using UnityEngine;
 
 public class DisableLoadingScreenWhenConnected : MonoBehaviour
 {
-    public Realtime realtime;
     public GameObject canvas;
 
     private void Start() {
-        realtime.GetComponent<RealtimeAvatarManager>().avatarCreated += HideLoadingScreen;
+        AvatarManager.GetInstance().avatarCreated += HideLoadingScreen;
 
         canvas.SetActive(true);
     }
 
-    private void HideLoadingScreen(RealtimeAvatarManager avatarManager, RealtimeAvatar avatar, bool isLocalAvatar) {
-        if(isLocalAvatar) canvas.SetActive(false);
+    private void HideLoadingScreen(PlayerAvatar avatar) {
+        if(avatar.isLocal) canvas.SetActive(false);
     }
 }

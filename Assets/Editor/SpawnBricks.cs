@@ -1,4 +1,3 @@
-using Normal.Realtime;
 using UnityEngine;
 using UnityEditor;
 
@@ -11,15 +10,14 @@ public static class SpawnBricks
         for (int i = 0; i < 100; i++)
         {
             Vector3 pos = RandomBrickPos();
-            GameObject o = Realtime.Instantiate("4x2 - Placed", pos, Quaternion.identity, destroyWhenOwnerOrLastClientLeaves: false, ownedByClient: false, preventOwnershipTakeover: false, useInstance: null);
-            o.transform.position = pos;
+            GameObject brick = 
+                GameObject.Instantiate(Resources.Load<GameObject>("4x2 - Placed"), pos, Quaternion.identity);
 
-            InitialTransformSync newBrickTransformSync = o.GetComponent<InitialTransformSync>();
-            newBrickTransformSync.SetPosition(pos);
-            newBrickTransformSync.SetRotation(Quaternion.identity);
+            brick.transform.rotation = Quaternion.identity;
+            brick.transform.position = pos;
 
-            BuildingBrickSync sync = o.GetComponent<BuildingBrickSync>();
-            sync.SetUuid(BrickId.FetchNewBrickID());
+            BrickUuid sync = brick.GetComponent<BrickUuid>();
+            sync.uuid = BrickId.FetchNewBrickID();
         }
     }
 

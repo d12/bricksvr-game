@@ -1,9 +1,6 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using Normal.Realtime;
-using TMPro;
+﻿using UnityEngine.UI;
 using UnityEngine;
-using UnityEngine.UI;
+using TMPro;
 
 public class PlayerListItem : MonoBehaviour
 {
@@ -15,30 +12,28 @@ public class PlayerListItem : MonoBehaviour
     public Sprite micMutedSprite;
     public Sprite micEnabledSprite;
 
-    private SyncVoiceWithSettings _syncVoiceWithSettings;
-
-    public void Initialize(RealtimeAvatar avatar, RoomOwnershipSync ownershipSync)
+    public void Initialize(PlayerAvatar avatar)
     {
         AvatarNicknameSync nicknameSync = avatar.GetComponent<AvatarNicknameSync>();
-        _syncVoiceWithSettings = avatar.head.GetComponent<SyncVoiceWithSettings>();
         nameText.text = nicknameSync.Nickname;
 
-        ownerCrown.SetActive(ownershipSync.IsRoomOwner(nicknameSync.ShortId));
+        // TODO: Multiplayer support.
+        ownerCrown.SetActive(true);
         SetMicrophoneSprite();
 
-        if (avatar.isOwnedLocallyInHierarchy)
+        if (avatar.isLocal)
             micButton.interactable = false;
 
     }
 
     public void MuteButtonPressed()
     {
-        _syncVoiceWithSettings.ToggleMuted();
+        //_syncVoiceWithSettings.ToggleMuted();
         SetMicrophoneSprite();
     }
 
     private void SetMicrophoneSprite()
     {
-        micImage.sprite = _syncVoiceWithSettings.Muted ? micMutedSprite : micEnabledSprite;
+        //micImage.sprite = _syncVoiceWithSettings.Muted ? micMutedSprite : micEnabledSprite;
     }
 }

@@ -1,19 +1,13 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
+﻿using UnityEngine.UI;
 using UnityEngine;
-using Normal.Realtime;
 using TMPro;
-using UnityEngine.Serialization;
-using UnityEngine.UI;
-using UnityEngine.XR.Interaction.Toolkit;
 
-public class AvatarNicknameSync : RealtimeComponent<AvatarNicknameModel>
+public class AvatarNicknameSync : AvatarNicknameModel
 {
     public TextMeshProUGUI nameText;
     public Transform nameTransform;
     public Transform headTransform;
-    [FormerlySerializedAs("_realtimeAvatarVoice")] public RealtimeAvatarVoice realtimeAvatarVoice;
+    //[FormerlySerializedAs("_realtimeAvatarVoice")] public RealtimeAvatarVoice realtimeAvatarVoice;
     public Transform avatarTransform;
     private Transform _currentCameraTransform;
 
@@ -38,22 +32,22 @@ public class AvatarNicknameSync : RealtimeComponent<AvatarNicknameModel>
     public Sprite[] volumeSprites; // Should be 3 images
     public Image volumeUIImage;
 
-    public string Nickname => model.nickname;
-    public string ShortId => model.shortId;
+    public string Nickname => nickname;
+    public string ShortId => shortId;
 
-    public int PrimaryAvatarColor => model.primaryAvatarColor;
+    public int PrimaryAvatarColor => primaryAvatarColor;
 
-    public int SecondaryAvatarColor => model.secondaryAvatarColor;
+    public int SecondaryAvatarColor => secondaryAvatarColor;
 
-    public int AvatarEyes => model.avatarEyes;
+    public int AvatarEyes => avatarEyes;
 
-    public int AvatarMouth => model.avatarMouth;
+    public int AvatarMouth => avatarMouth;
 
     private void Start()
     {
         // Note, sometimes Camera.current doesn't exist here
         _currentCameraTransform = Camera.current.transform;
-        if (GetComponent<RealtimeAvatar>().isOwnedLocallyInHierarchy)
+        if (GetComponent<PlayerAvatar>() == null)
         {
             UserSettings userSettings = UserSettings.GetInstance();
             SetNickname(userSettings.Nickname);
@@ -81,22 +75,17 @@ public class AvatarNicknameSync : RealtimeComponent<AvatarNicknameModel>
         {
             nameTransform.position = headTransform.position + Vector3.Scale(NameTextOffset, avatarTransform.localScale);
             nameTransform.LookAt(_currentCameraTransform);
-
-            RecordVolume();
-
-            if(_nextVolumeIndex % NumberOfVolumeMeasurementsToSmooth == 0)
-                UpdateVolumeIndicator();
         }
     }
 
     private void NicknameSet()
     {
-        nameText.text = model.nickname;
+        nameText.text = nickname;
     }
 
     private void PrimaryAvatarColorSet()
     {
-        Color primaryColor = ColorInt.IntToColor32(model.primaryAvatarColor);
+        Color primaryColor = ColorInt.IntToColor32(primaryAvatarColor);
         foreach (SetColorOnPrefabBrick setColorOnPrefabBrick in primaryHeadBricks)
         {
             setColorOnPrefabBrick.SetColor(primaryColor);
@@ -110,7 +99,7 @@ public class AvatarNicknameSync : RealtimeComponent<AvatarNicknameModel>
 
     private void SecondaryAvatarColorSet()
     {
-        Color secondaryColor = ColorInt.IntToColor32(model.secondaryAvatarColor);
+        Color secondaryColor = ColorInt.IntToColor32(secondaryAvatarColor);
         foreach (SetColorOnPrefabBrick setColorOnPrefabBrick in secondaryHeadBricks)
         {
             setColorOnPrefabBrick.SetColor(secondaryColor);
@@ -124,43 +113,12 @@ public class AvatarNicknameSync : RealtimeComponent<AvatarNicknameModel>
 
     private void AvatarEyesSet()
     {
-        eyesImage.sprite = AvatarFaceGetter.GetInstance().GetEyes(model.avatarEyes);
+        eyesImage.sprite = AvatarFaceGetter.GetInstance().GetEyes(avatarEyes);
     }
 
     private void AvatarMouthSet()
     {
-        mouthImage.sprite = AvatarFaceGetter.GetInstance().GetMouth(model.avatarMouth);
-    }
-
-    protected override void OnRealtimeModelReplaced(AvatarNicknameModel previousModel, AvatarNicknameModel currentModel)
-    {
-        if (previousModel != null)
-        {
-            // Unregister from events
-            previousModel.nicknameDidChange -= NicknameDidChange;
-        }
-
-        if (currentModel != null)
-        {
-            if (currentModel.isFreshModel)
-            {
-                currentModel.nickname = "";
-                currentModel.shortId = "";
-                currentModel.avatarEyes = 1;
-                currentModel.avatarMouth = 1;
-            }
-            NicknameSet();
-            PrimaryAvatarColorSet();
-            SecondaryAvatarColorSet();
-            AvatarEyesSet();
-            AvatarMouthSet();
-
-            currentModel.nicknameDidChange += NicknameDidChange;
-            currentModel.primaryAvatarColorDidChange += PrimaryAvatarColorDidChange;
-            currentModel.secondaryAvatarColorDidChange += SecondaryAvatarColorDidChange;
-            currentModel.avatarEyesDidChange += AvatarEyesDidChange;
-            currentModel.avatarMouthDidChange += AvatarMouthDidChange;
-        }
+        mouthImage.sprite = AvatarFaceGetter.GetInstance().GetMouth(avatarMouth);
     }
 
     private void NicknameDidChange(AvatarNicknameModel model, string nickname)
@@ -188,66 +146,33 @@ public class AvatarNicknameSync : RealtimeComponent<AvatarNicknameModel>
         AvatarMouthSet();
     }
 
-    private void SetNickname(string nickname)
+    private void SetNickname(string _nickname)
     {
-        model.nickname = nickname;
+        nickname = _nickname;
     }
 
-    private void SetShortId(string shortId)
+    private void SetShortId(string _shortId)
     {
-        model.shortId = shortId;
+        shortId = _shortId;
     }
 
     private void SetPrimaryAvatarColor(int color)
     {
-        model.primaryAvatarColor = color;
+        primaryAvatarColor = color;
     }
 
     private void SetSecondaryAvatarColor(int color)
     {
-        model.secondaryAvatarColor = color;
+        secondaryAvatarColor = color;
     }
 
     private void SetAvatarEyes(int value)
     {
-        model.avatarEyes = value;
+        avatarEyes = value;
     }
 
     private void SetAvatarMouth(int value)
     {
-        model.avatarMouth = value;
-    }
-
-    private void RecordVolume()
-    {
-        _lastVolumes[_nextVolumeIndex] = realtimeAvatarVoice.voiceVolume;
-        _nextVolumeIndex += 1;
-        _nextVolumeIndex %= NumberOfVolumeMeasurementsToSmooth;
-    }
-
-    private void UpdateVolumeIndicator()
-    {
-        Sprite imageToUse;
-        switch (realtimeAvatarVoice.voiceVolume)
-        {
-            case float volume when (volume < 0.15f):
-                volumeUIImage.enabled = false;
-                return; // No volume image when volume is too low
-
-            case float volume when (volume < 0.3f):
-                imageToUse = volumeSprites[0];
-                break;
-
-            case float volume when (volume < 0.65f):
-                imageToUse = volumeSprites[1];
-                break;
-
-            default:
-                imageToUse = volumeSprites[2];
-                break;
-        }
-
-        volumeUIImage.enabled = true;
-        volumeUIImage.sprite = imageToUse;
+        avatarMouth = value;
     }
 }
