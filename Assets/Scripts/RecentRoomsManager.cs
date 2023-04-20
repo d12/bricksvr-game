@@ -5,7 +5,7 @@ using System.Linq;
 using UnityEngine;
 using System.IO;
 using TMPro;
-
+using UnityEngine.Events;
 
 public class RecentRoomsManager : MonoBehaviour
 {
@@ -66,13 +66,9 @@ public class RecentRoomsManager : MonoBehaviour
 
     private void RenderNoSavedRooms()
     {
-        Debug.Log("========= NO SAVED ROOMS =========");
         noSavedRoomsObject.SetActive(true);
-        Debug.Log("========= NO SAVED ROOMS =========");
         savedRoomsObject.SetActive(false);
-        Debug.Log("========= NO SAVED ROOMS =========");
         pagedScroll.DisableButtons();
-        Debug.Log("========= NO SAVED ROOMS =========");
     }
 
     private void RenderSavedRoomsList()
@@ -104,10 +100,11 @@ public class RecentRoomsManager : MonoBehaviour
 
             TextMeshProUGUI roomNameText = recentRoomsNames[i];
 
-            roomNameText.text = rooms[i];
+            string[] path = rooms[i].Split('/');
+            roomNameText.text = path[path.Length - 1];
 
             int i1 = i;
-            button.onClick.AddListener(delegate { ButtonClicked(rooms[i1]); });
+            button.onClick.AddListener(new UnityAction(() => ButtonClicked(rooms[i1])));
         }
 
         pagedScroll.SetFixedElementCount(rooms.Length);
@@ -115,9 +112,14 @@ public class RecentRoomsManager : MonoBehaviour
 
     private void ButtonClicked(string roomName)
     {
-        SessionManager.JoinRoomWrapper(roomName);
+        CallLoadEnum(roomName);
         gameObject.SetActive(false);
         loadingPage.SetActive(true);
+    }
+
+    private static void CallLoadEnum(string roomName) {
+        SessionManager manager = SessionManager.GetInstance();
+        manager.StartCoroutine(manager.session.LoadSave(roomName));
     }
 
     private string TitleCase(string roomName)

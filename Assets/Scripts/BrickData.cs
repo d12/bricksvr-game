@@ -138,4 +138,66 @@ public static class BrickData
         public readonly Vector3 Rotation;
         public readonly Vector3 HandSpawnerPositionOffset;
     }
+
+    public class LocalBrickData {
+        public CustomQuaternion rot;
+        public CustomVec3 pos;
+        public string type;
+        public int color;
+    }
+
+    public class CustomVec3 {
+        public float x;
+        public float y;
+        public float z;
+
+        public static CustomVec3 From(Vector3 vec3)
+        {
+            return new CustomVec3 {
+                x = vec3.x,
+                y = vec3.y,
+                z = vec3.z,
+            };
+        }
+
+        public static Vector3 To(CustomVec3 vec3)
+        {
+            return new Vector3
+            (
+                vec3.x,
+                vec3.y,
+                vec3.z
+            );
+        }
+    }
+
+    public class CustomQuaternion
+    {
+        public float x;
+        public float y;
+        public float z;
+        public float w;
+
+        public static CustomQuaternion From(Quaternion quat)
+        {
+            return new CustomQuaternion
+            {
+                x = quat.x,
+                y = quat.y,
+                z = quat.z,
+                w = quat.w,
+            };
+        }
+
+        public static Quaternion To(CustomQuaternion quat)
+        {
+            return new Quaternion
+            (
+                quat.x,
+                quat.y,
+                quat.z,
+                quat.w
+            );
+        }
+    }
 }

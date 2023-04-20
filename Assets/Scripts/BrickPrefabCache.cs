@@ -31,7 +31,7 @@ public class BrickPrefabCache : MonoBehaviour
         return _brickPrefabCache?[brickName];
     }
 
-    private void GenerateCache()
+    public void GenerateCache()
     {
         _brickPrefabCache = new Dictionary<string, GameObject>();
         foreach (BrickData.Brick brick in BrickData.AllBricks())

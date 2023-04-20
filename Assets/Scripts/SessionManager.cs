@@ -115,9 +115,7 @@ public class SessionManager : MonoBehaviour
     private readonly string _roomPrefix = $"v{ReleaseVersion.MinorString()}-";
     private string _roomName;
 
-    private float _ambientMusicMaxVolume;
-
-    private bool _loading;
+    public float _ambientMusicMaxVolume;
     private bool _inGameMenuUp;
 
     public bool debugMode;
@@ -258,7 +256,7 @@ public class SessionManager : MonoBehaviour
 
     public bool Loading()
     {
-        return _loading;
+        return session.isLoading;
     }
 
     public bool InGameMenuUp()
@@ -298,7 +296,7 @@ public class SessionManager : MonoBehaviour
             yield break;
         }
 
-        _loading = true;
+        //_loading = true;
 
         _brickStore.ClearAndRemoveFromWorld();
 
@@ -411,7 +409,7 @@ public class SessionManager : MonoBehaviour
         // Some time for things to settle
         yield return new WaitForSeconds(0.25f);
 
-        _loading = false;
+        //_loading = false;
         musicPlayer.Resume();
         joystickLocomotion.enabled = true;
 
@@ -565,7 +563,7 @@ public class SessionManager : MonoBehaviour
         }
     }
 
-    private void WarmOtherCaches()
+    public void WarmOtherCaches()
     {
         GameObject brick4x2 = Instantiate(Resources.Load<GameObject>("4x2"), new Vector3(0, -10, 0), Quaternion.identity);
         GameObject brick2x2 = Instantiate(Resources.Load<GameObject>("2x2"), new Vector3(0, -20, 0), Quaternion.identity);

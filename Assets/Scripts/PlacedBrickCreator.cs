@@ -4,37 +4,31 @@ public static class PlacedBrickCreator
 {
     private static SessionManager _sessionManager;
 
-    public static GameObject CreateFromBrickObject(NormcoreRPC.Brick brick, bool recalculateMesh = true)
+    public static GameObject CreateFromBrickObject(BrickData.LocalBrickData brick, bool recalculateMesh = true)
     {
-        return CreateFromAttributes(brick.matId, brick.type, brick.pos, brick.rot, brick.uuid, brick.color, brick.usingNewColor, brick.usingHeadStuff ? brick.headClientId : -1, recalculateMesh);
+        return CreateFromAttributes(brick.type, BrickData.CustomVec3.To(brick.pos), BrickData.CustomQuaternion.To(brick.rot), brick.color, recalculateMesh);
     }
 
-    private static GameObject CreateFromAttributes(int matId, string type, Vector3 pos, Quaternion rot, string uuid, int color, bool usingNewColor, int headClientId, bool recalculateMesh = true)
+    private static GameObject CreateFromAttributes(string type, Vector3 pos, Quaternion rot, int color, bool recalculateMesh = true, int headClientId = -1)
     {
+        string uuid = BrickId.FetchNewBrickID();
         GameObject brickObject;
         if (headClientId == -1)
         {
-            brickObject = GameObject.Instantiate(BrickPrefabCache.GetInstance().Get($"{type} - Placed"), pos, rot);
+            brickObject = GameObject.Instantiate(BrickPrefabCache.GetInstance().Get(type), pos, rot);
         }
         else
         {
             AvatarManager avatarManager = AvatarManager.GetInstance();
-            if (!avatarManager.avatars.ContainsKey(headClientId))
-            {
-                Debug.LogError("Got a brick parented to a user that no longer exists!");
-                return null;
-            }
+            Transform headTransform = avatarManager.localAvatar.head.transform;
 
-            Transform headTransform = avatarManager.avatars[headClientId].head;
-
-            brickObject = GameObject.Instantiate(BrickPrefabCache.GetInstance().Get($"{type} - Placed"), headTransform);
+            brickObject = GameObject.Instantiate(BrickPrefabCache.GetInstance().Get(type), headTransform);
             brickObject.transform.localPosition = pos;
             brickObject.transform.localRotation = rot;
         }
         BrickAttach newBrickAttach = brickObject.GetComponent<BrickAttach>();
-        newBrickAttach.headClientId = headClientId;
 
-        newBrickAttach.Color = usingNewColor ? ColorInt.IntToColor32(color) : BrickColorMap.ColorFromID(matId);
+        newBrickAttach.Color = ColorInt.IntToColor32(color);
 
         BrickUuid brickUuid = brickObject.GetComponent<BrickUuid>();
         brickUuid.uuid = uuid;

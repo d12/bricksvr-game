@@ -30,6 +30,10 @@ public class OwnedPhysicsBricksStore : MonoBehaviour
         if (_bricksDict.ContainsKey(o))
             return;
 
+        // Make a better way of detecting placed bricks.
+        BrickAttach attach = o.GetComponent<BrickAttach>();
+        if(!attach.swapPrefab.Contains("Placed")) return;
+
         RemoveDeadBricks();
 
         _bricks.Add(o);

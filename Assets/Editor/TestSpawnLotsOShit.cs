@@ -8,17 +8,15 @@ public static class TestSpawnLotsOShit
     [MenuItem("Debug/TEST SPAWN LOTS OF BRICKS AND SEND TO DATASTORE")]
     public static void Spawn()
     {
-        NormcoreRPC.Brick serializedBrickObject = new NormcoreRPC.Brick()
+        BrickData.LocalBrickData serializedBrickObject = new BrickData.LocalBrickData()
         {
-            matId = 3,
             type = "4x2",
-            rot = Quaternion.identity
+            rot = BrickData.CustomQuaternion.From(Quaternion.identity)
         };
 
         for (int i = 0; i < 200; i++)
         {
-            serializedBrickObject.pos = RandomBrickPos();
-            serializedBrickObject.uuid = BrickId.FetchNewBrickID();
+            serializedBrickObject.pos = BrickData.CustomVec3.From(RandomBrickPos());
             GameObject newBrick = PlacedBrickCreator.CreateFromBrickObject(serializedBrickObject);
         }
     }

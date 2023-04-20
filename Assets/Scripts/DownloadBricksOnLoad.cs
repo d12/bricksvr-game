@@ -75,8 +75,8 @@ public class DownloadBricksOnLoad : MonoBehaviour
                 }
                 else
                 {
-                    createdBricks[i] = PlacedBrickCreator.CreateFromBrickObject(parsedResponse.bricks[i], false)
-                        .GetComponent<BrickAttach>();
+                    //createdBricks[i] = PlacedBrickCreator.CreateFromBrickObject(parsedResponse.bricks[i], false)
+                    //    .GetComponent<BrickAttach>();
                 }
             }
             catch (Exception e)
@@ -134,8 +134,8 @@ public class DownloadBricksOnLoad : MonoBehaviour
             }
             else
             {
-                createdBricks[i] = PlacedBrickCreator.CreateFromBrickObject(bricksParentedToHeads[i], false)
-                 .GetComponent<BrickAttach>();
+                //createdBricks[i] = PlacedBrickCreator.CreateFromBrickObject(bricksParentedToHeads[i], false)
+                // .GetComponent<BrickAttach>();
             }
         }
 

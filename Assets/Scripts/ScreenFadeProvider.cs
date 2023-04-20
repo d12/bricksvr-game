@@ -25,7 +25,6 @@ public static class ScreenFadeProvider
 
             alpha += (0.01f * FadeSpeed);
             music.volume = maxVolume * (1 - alpha);
-
             yield return null;
         } while (alpha < 1f);
     }

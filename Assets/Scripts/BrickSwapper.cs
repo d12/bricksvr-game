@@ -43,29 +43,29 @@ public static class BrickSwapper
     {
         BrickAttach brickAttach = brick.GetComponent<BrickAttach>();
 
-        NormcoreRPC.Brick serializedBrickObject = new NormcoreRPC.Brick()
+        BrickData.LocalBrickData serializedBrickObject = new BrickData.LocalBrickData()
         {
             color = ColorInt.ColorToInt(brickAttach.Color),
             type = brickAttach.normalPrefabName,
-            uuid = brickAttach.GetUuid(),
-            pos = brick.transform.position,
-            rot = brick.transform.rotation,
-            usingNewColor = true,
-            headClientId = headClientId,
-            usingHeadStuff = true,
+            //uuid = brickAttach.GetUuid(),
+            pos = BrickData.CustomVec3.From(brick.transform.position),
+            rot = BrickData.CustomQuaternion.From(brick.transform.rotation),
+            //usingNewColor = true,
+            //headClientId = headClientId,
+            //usingHeadStuff = true,
         };
 
         // If this brick is on a head, send the relative position/rotation instead of the world position/rotation
         if (headClientId != -1)
         {
             brick.transform.parent = avatarManager.avatars[headClientId].head;
-            serializedBrickObject.pos = brick.transform.localPosition;
-            serializedBrickObject.rot = brick.transform.localRotation;
+            serializedBrickObject.pos = BrickData.CustomVec3.From(brick.transform.localPosition);
+            serializedBrickObject.rot = BrickData.CustomQuaternion.From(brick.transform.localRotation);
         }
 
         if (!TutorialManager.GetInstance().IsTutorialRunning())
         {
-            BrickServerInterface.GetInstance().SendBrick(serializedBrickObject);
+            //BrickServerInterface.GetInstance().SendBrick(serializedBrickObject);
         }
 
         GameObject newBrick = PlacedBrickCreator.CreateFromBrickObject(serializedBrickObject);
