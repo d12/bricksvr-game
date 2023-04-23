@@ -61,7 +61,7 @@ public class LocalSessionLoader : MonoBehaviour
     }
 
     public static bool CreateRoom(string name) {
-        string path = $"{Application.dataPath}/saves/{name}.bricks";
+        string path = $"{(Application.isEditor ? Application.dataPath : Application.persistentDataPath)}/saves/{name}.bricks";
         if(File.Exists(path))
             return false;
 

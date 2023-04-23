@@ -144,10 +144,11 @@ public class Session : MonoBehaviour
 
         yield return StartCoroutine(ScreenFadeProvider.Unfade(manager.ambientMusic, manager._ambientMusicMaxVolume));
 
+        saveDirectory = file;
+
         playing = true;
         AvatarManager.GetInstance().Initialize(this);
         didSessionStart.Invoke(this);
-        saveDirectory = file;
     }
 
     public void Start() {

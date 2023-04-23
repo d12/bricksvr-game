@@ -57,10 +57,10 @@ public class RecentRoomsManager : MonoBehaviour
     }
 
     private string[] FindSaves() {
-        if(!Directory.Exists($"{Application.dataPath}/saves/"))
-            Directory.CreateDirectory($"{Application.dataPath}/saves/");
+        if(!Directory.Exists($"{(Application.isEditor ? Application.dataPath : Application.persistentDataPath)}/saves/"))
+            Directory.CreateDirectory($"{(Application.isEditor ? Application.dataPath : Application.persistentDataPath)}/saves/");
         
-        return Directory.GetFiles($"{Application.dataPath}/saves/")
+        return Directory.GetFiles($"{(Application.isEditor ? Application.dataPath : Application.persistentDataPath)}/saves/")
             .Where(file => file.EndsWith(".bricks")).ToArray();
     }
 

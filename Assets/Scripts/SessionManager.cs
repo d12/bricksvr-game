@@ -606,10 +606,14 @@ public class SessionManager : MonoBehaviour
         _didSessionStart = true;
         GameObject localHead = AvatarManager.GetInstance().localAvatar.head.gameObject;
         Renderer[] localHeadRenderers = localHead.GetComponentsInChildren<Renderer>();
+
         foreach (Renderer r in localHeadRenderers)
         {
             r.enabled = false;
         }
+
+        menuLeftHand.SetActive(false);
+        menuRightHand.SetActive(false);
     }
 
     private void DidSessionEnd(Session session)

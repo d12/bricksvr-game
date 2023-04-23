@@ -130,7 +130,9 @@ PlayerSettings:
     16:9: 1
     Others: 1
   bundleVersion: 0.2.40
-  preloadedAssets: []
+  preloadedAssets:
+  - {fileID: -7898358469677280134, guid: 5c21059f34b2d496fad263a72e8bff32, type: 2}
+  - {fileID: 11400000, guid: 316ead59ce801443cb9ccffb5e30be87, type: 2}
   metroInputSource: 0
   wsaTransparentSwapchain: 0
   m_HolographicPauseOnTrackingLoss: 1
@@ -173,7 +175,7 @@ PlayerSettings:
   androidSupportedAspectRatio: 1
   androidMaxAspectRatio: 2.1
   applicationIdentifier:
-    Android: com.BricksVR.BricksVRDemo
+    Android: com.BricksVR.BricksVRRebuilt
   buildNumber: {}
   AndroidBundleVersionCode: 39
   AndroidMinSdkVersion: 23
@@ -250,7 +252,7 @@ PlayerSettings:
   clonedFromGUID: c0afd0d1d80e3634a9dac47e8a0426ea
   templatePackageId: com.unity.template.3d@4.2.5
   templateDefaultScene: Assets/Scenes/SampleScene.unity
-  AndroidTargetArchitectures: 3
+  AndroidTargetArchitectures: 1
   AndroidSplashScreenScale: 0
   androidSplashScreen: {fileID: 0}
   AndroidKeystoreName: '{inproject}: user.keystore'

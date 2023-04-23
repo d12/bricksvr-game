@@ -1,7 +1,5 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using UnityEngine;
 using TMPro;
-using UnityEngine;
 
 public class NameKeyboardManager : MonoBehaviour
 {
@@ -14,6 +12,7 @@ public class NameKeyboardManager : MonoBehaviour
     private const int MaxNameLength = 15;
     private string _defaultNameLabel;
     private ProfanityFilter.ProfanityFilter _profanityFilter;
+    private bool uppercase = true;
 
     private void Awake()
     {
@@ -35,7 +34,7 @@ public class NameKeyboardManager : MonoBehaviour
         if (_enteredName.Length == 0 && key == " ")
             return;
 
-        _enteredName += key;
+        _enteredName += uppercase ? key.ToUpper() : key.ToLower();
         UpdateNameOnUI();
     }
 
@@ -46,6 +45,15 @@ public class NameKeyboardManager : MonoBehaviour
 
         _enteredName = _enteredName.Remove(_enteredName.Length - 1, 1);
         UpdateNameOnUI();
+    }
+
+    public void CapslockPress(GameObject gameObject) {
+        TextMeshProUGUI[] components = gameObject.GetComponentsInChildren<TextMeshProUGUI>();
+        foreach(TextMeshProUGUI text in components) {
+            text.text = uppercase ? text.text.ToLower() : text.text.ToUpper();
+        }
+
+        uppercase = !uppercase;
     }
 
     public void SubmitAndReturnToMain()

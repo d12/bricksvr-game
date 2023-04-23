@@ -1,5 +1,4 @@
-﻿using ProfanityFilter;
-using UnityEngine;
+﻿using UnityEngine;
 using TMPro;
 
 
@@ -77,7 +76,7 @@ public class CreateKeyboardManager : MonoBehaviour
         }
 
         SessionManager manager = SessionManager.GetInstance();
-        manager.StartCoroutine(manager.session.LoadSave($"{Application.dataPath}/saves/{(_enteredName == "" ? DefaultName : _enteredName)}.bricks"));
+        manager.StartCoroutine(manager.session.LoadSave($"{(Application.isEditor ? Application.dataPath : Application.persistentDataPath)}/saves/{(_enteredName == "" ? DefaultName : _enteredName)}.bricks"));
     }
 
     public void ClearName()

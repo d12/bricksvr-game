@@ -1,12 +1,11 @@
-using System.IO;
-using System.Security.Principal;
 using UnityEditor;
 using UnityEngine;
+using System.IO;
 
 public static class PrepareDeploy
 {
-    private const string MainGamePackageName = "com.BricksVR.BricksVR";
-    private const string DemoGamePackageName = "com.BricksVR.BricksVRDemo";
+    private const string MainGamePackageName = "com.BricksVR.BricksVR-Rebuilt";
+    private const string DemoGamePackageName = "com.BricksVR.BricksVRDemo-Rebuilt";
 
     [MenuItem("Deploy/Increment Version")]
     private static void IncrementVersion()

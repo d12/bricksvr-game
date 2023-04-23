@@ -34,6 +34,7 @@ public class UserSettings : MonoBehaviour
     public SerializableIntEvent AvatarMouthUpdated;
     public SerializableIntEvent AvatarEyesUpdated;
     public SerializableIntEvent BrickShininessUpdated;
+    public SerializableIntEvent AutosaveUpdated;
 
     public SerializableStringEvent NicknameUpdated;
 
@@ -84,6 +85,7 @@ public class UserSettings : MonoBehaviour
         if (!PlayerPrefs.HasKey(AvatarMouthKey))                    PlayerPrefs.SetInt(AvatarMouthKey, 1);
         if (!PlayerPrefs.HasKey(AvatarEyesKey))                     PlayerPrefs.SetInt(AvatarEyesKey, 1);
         if (!PlayerPrefs.HasKey(BrickShininessKey))                 PlayerPrefs.SetInt(BrickShininessKey, 5);
+        if (!PlayerPrefs.HasKey(BrickShininessKey))                 PlayerPrefs.SetInt(BrickShininessKey, 5);
     }
 
     private void SendInitialEvents()
@@ -110,7 +112,7 @@ public class UserSettings : MonoBehaviour
         AvatarMouthUpdated?.Invoke(PlayerPrefs.GetInt(AvatarMouthKey));
         AvatarEyesUpdated?.Invoke(PlayerPrefs.GetInt(AvatarEyesKey));
         BrickShininessUpdated?.Invoke(PlayerPrefs.GetInt(BrickShininessKey));
-
+        AutosaveUpdated?.Invoke(PlayerPrefs.GetInt(AutosaveKey));
     }
 
     private void SendNicknameToServerOnLoad()
@@ -377,6 +379,21 @@ public class UserSettings : MonoBehaviour
     public float BrickShininessF
     {
         set => BrickShininess = (int) value;
+    }
 
+    private const string AutosaveKey = "auto_save";
+    public int AutoSave
+    {
+        get => PlayerPrefs.GetInt(AutosaveKey);
+        set
+        {
+            PlayerPrefs.SetInt(AutosaveKey, value);
+            AutosaveUpdated?.Invoke(value);
+        }
+    }
+
+    public float AutoSaveF
+    {
+        set => AutoSave = (int) value;
     }
 }
