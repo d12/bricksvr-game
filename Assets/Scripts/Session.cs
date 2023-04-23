@@ -6,7 +6,8 @@ public class Session : MonoBehaviour
 {
     public ChunkedRenderer chunkedRenderer;
     public LoadingScreen loadingScreen;
-    public string name = "My world";
+    public string worldName = "My world";
+    public string saveDirectory;
 
     public int clientID {
         get {
@@ -23,7 +24,7 @@ public class Session : MonoBehaviour
         }
     }
 
-    private bool playing = true;
+    private bool playing;
     public bool isPlaying {
         get {
             return playing;
@@ -142,7 +143,11 @@ public class Session : MonoBehaviour
         manager.joystickLocomotion.enabled = true;
 
         yield return StartCoroutine(ScreenFadeProvider.Unfade(manager.ambientMusic, manager._ambientMusicMaxVolume));
-        
+
+        playing = true;
+        AvatarManager.GetInstance().Initialize(this);
+        didSessionStart.Invoke(this);
+        saveDirectory = file;
     }
 
     public void Start() {

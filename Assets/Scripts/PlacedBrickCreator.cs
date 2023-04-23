@@ -11,6 +11,7 @@ public static class PlacedBrickCreator
 
     private static GameObject CreateFromAttributes(string type, Vector3 pos, Quaternion rot, int color, bool recalculateMesh = true, int headClientId = -1)
     {
+        if(!type.Contains(" - Placed")) type += " - Placed";
         string uuid = BrickId.FetchNewBrickID();
         GameObject brickObject;
         if (headClientId == -1)

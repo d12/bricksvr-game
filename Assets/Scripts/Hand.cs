@@ -77,9 +77,7 @@ namespace OVRTouchSample
 
         private void Start()
         {
-            GameObject realtimeObject = GameObject.Find("Realtime");
-            AvatarManager avatarManager = realtimeObject.GetComponent<AvatarManager>();
-            if(avatarManager.localAvatar == avatar.GetComponent<PlayerAvatar>()){
+            if(avatar.GetComponent<PlayerAvatar>().isLocal){
                 _isLocalHand = true;
             }
 

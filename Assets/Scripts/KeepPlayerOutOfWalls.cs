@@ -15,7 +15,7 @@ public class KeepPlayerOutOfWalls : MonoBehaviour
     private Vector3 _lastGoodPosition;
     private Transform _transform;
     private SphereCollider _collider;
-    private bool _wallClipAllowed;
+    private bool _wallClipAllowed = true;
 
     private readonly List<Collider> _collidersCollidingWith = new List<Collider>();
     private bool CollidingWithObjects => _collidersCollidingWith.Count > 0;

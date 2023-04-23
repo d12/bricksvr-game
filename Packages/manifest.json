@@ -3,6 +3,7 @@
     "com.nobi.roundedcorners": "https://github.com/kirevdokimov/Unity-UI-Rounded-Corners.git",
     "com.unity.ide.rider": "1.2.1",
     "com.unity.ide.vscode": "1.2.3",
+    "com.unity.nuget.newtonsoft-json": "3.1.0",
     "com.unity.test-framework": "1.1.27",
     "com.unity.textmeshpro": "2.1.6",
     "com.unity.timeline": "1.2.18",

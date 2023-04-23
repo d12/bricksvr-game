@@ -2,30 +2,38 @@
 
 public class PlayerAvatar : MonoBehaviour
 {
+    private LocalRigData source;
+
+    private bool? _local = null;
     public bool isLocal {
         get {
-            return this == AvatarManager.GetInstance().localAvatar;
+            if(_local == null)
+                _local = this == AvatarManager.GetInstance().localAvatar;
+
+            return _local.Value;
         }
     }
 
-    private Transform _head;
-    public Transform head {
-        get {
-            return _head;
-        }
+    public Transform head;
+    public Transform leftHand;
+    public Transform rightHand;
+    public GameObject nameLabel;
+    public GameObject face;
+
+    public void Start() {
+        source = FindObjectOfType<LocalRigData>();
+
+        if(!isLocal) return;
+        
+        nameLabel.SetActive(false);
+        face.SetActive(false);
     }
 
-    private Transform _leftHand;
-    public Transform leftHand {
-        get {
-            return _leftHand;
-        }
-    }
-
-    private Transform _rightHand;
-    public Transform rightHand {
-        get {
-            return _rightHand;
-        }
+    public void Update() {
+        if(!isLocal) return;
+        
+        rightHand.SetPositionAndRotation(source.rightHand.position, source.rightHand.rotation);
+        leftHand.SetPositionAndRotation(source.leftHand.position, source.leftHand.rotation);
+        head.SetPositionAndRotation(source.head.position, source.head.rotation);
     }
 }

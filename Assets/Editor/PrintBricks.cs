@@ -21,9 +21,9 @@ public static class PrintBricks
         }).ToArray();
 
         BrickCollectionJson jsonObject = new BrickCollectionJson()
-            {bricks = bricks, room = SessionManager.GetInstance().session.name};
+            {bricks = bricks, room = SessionManager.GetInstance().session.worldName};
 
-        string path = $"Assets/Resources/{SessionManager.GetInstance().session.name}";
+        string path = $"Assets/Resources/{SessionManager.GetInstance().session.worldName}";
         StreamWriter writer = new StreamWriter(path, false);
         writer.WriteLine(JsonUtility.ToJson(jsonObject));
         writer.Close();

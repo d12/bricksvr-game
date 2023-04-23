@@ -1,16 +1,15 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
-
-using UnityEngine;
-using TMPro;
-using UnityEngine.Android;
-using UnityEngine.SceneManagement;
-using UnityEngine.Serialization;
-using UnityEngine.UI;
-using UnityEngine.XR.Interaction.Toolkit;
+﻿using UnityEngine.XR.Interaction.Toolkit;
 using Random = UnityEngine.Random;
+using UnityEngine.SceneManagement;
+using System.Collections.Generic;
+using UnityEngine.Serialization;
+using UnityEngine.Android;
+using System.Collections;
+using UnityEngine.UI;
+using System.Linq;
+using UnityEngine;
+using System;
+using TMPro;
 
 public class SessionManager : MonoBehaviour
 {
@@ -430,6 +429,8 @@ public class SessionManager : MonoBehaviour
     {
         LoadingError.IntentionalDisconnect = true;
         UserSettings.GetInstance().TutorialPlayed = true;
+        if(session.isSinglePlayer) LocalSessionLoader.SaveRoom(session.saveDirectory);
+
         StartCoroutine(BackToMenu());
     }
 
@@ -603,7 +604,7 @@ public class SessionManager : MonoBehaviour
     private void DidSessionStart(Session session)
     {
         _didSessionStart = true;
-        GameObject localHead = realtimeGameobject.GetComponent<AvatarManager>().localAvatar.head.gameObject;
+        GameObject localHead = AvatarManager.GetInstance().localAvatar.head.gameObject;
         Renderer[] localHeadRenderers = localHead.GetComponentsInChildren<Renderer>();
         foreach (Renderer r in localHeadRenderers)
         {

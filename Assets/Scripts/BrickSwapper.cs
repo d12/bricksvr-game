@@ -18,7 +18,7 @@ public static class BrickSwapper
         // DestroyBrickOverRPC(serializedBrickObject);
 
         // Remove the brick from the datastore since the datastore specifically stores PLACED bricks
-        BrickServerInterface.GetInstance().RemoveBrick(brickAttach.GetUuid());
+        //BrickServerInterface.GetInstance().RemoveBrick(brickAttach.GetUuid());
 
         GameObject newBrick = GameObject.Instantiate(
             Resources.Load<GameObject>(brickAttach.swapPrefab),

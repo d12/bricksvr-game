@@ -30,6 +30,8 @@ TagManager:
   - AvatarFaceGetter
   - LightManager
   - Session
+  - LocalLeftHand
+  - LocalRightHand
   layers:
   - Default
   - TransparentFX

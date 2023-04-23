@@ -67,7 +67,17 @@ public class CreateKeyboardManager : MonoBehaviour
         createMenu.SetActive(false);
         loadingMenu.SetActive(true);
 
-        loadingScreen.CreateRoom(_enteredName == "" ? DefaultName : _enteredName);
+        loadingScreen.loadingText.text = "Creating room...";
+        bool success = LocalSessionLoader.CreateRoom(_enteredName == "" ? DefaultName : _enteredName);
+
+        if(!success) {
+            loadingScreen.loadingText.text = "Failed to create room.";
+            loadingScreen.backButton.SetActive(true);
+            return;
+        }
+
+        SessionManager manager = SessionManager.GetInstance();
+        manager.StartCoroutine(manager.session.LoadSave($"{Application.dataPath}/saves/{(_enteredName == "" ? DefaultName : _enteredName)}.bricks"));
     }
 
     public void ClearName()

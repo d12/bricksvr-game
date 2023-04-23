@@ -102,12 +102,6 @@ public class BrickAttach : MonoBehaviour
         meshFilter = model.GetComponent<MeshFilter>();
         meshRenderer = model.GetComponent<MeshRenderer>();
 
-        if (Application.isEditor)
-        {
-            originalMaterial = model.GetComponent<MeshRenderer>().sharedMaterial;
-            originalMesh = _userSettings.SuperUltraPerformanceMode ? _modularModel.transform.Find("FlatBody").GetComponentInChildren<MeshFilter>().sharedMesh : model.GetComponent<MeshFilter>().sharedMesh;
-        }
-
         foreach (Transform child in maleConnectorParent.transform)
         {
             maleConnectorScriptsByName.Add(child.gameObject.name, child.gameObject.GetComponent<LegoConnectorScript>());
@@ -118,6 +112,12 @@ public class BrickAttach : MonoBehaviour
         solidMesh = modularBrickObject.GetSolidMesh(normalPrefabName);
         hollowMesh = modularBrickObject.GetHollowMesh(normalPrefabName);
         studMesh = modularBrickObject.GetStudMesh(normalPrefabName);
+
+        if (Application.isEditor)
+        {
+            originalMaterial = model.GetComponent<MeshRenderer>().sharedMaterial;
+            originalMesh = _userSettings.SuperUltraPerformanceMode ? _modularModel.transform.Find("FlatBody").GetComponentInChildren<MeshFilter>().sharedMesh : model.GetComponent<MeshFilter>().sharedMesh;
+        }
 
         SetSortedMaterial();
     }

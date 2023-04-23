@@ -68,8 +68,8 @@ public class JoystickLocomotion : MonoBehaviour
         Vector3 oldPosition = transform.position;
         transform.position += movement;
 
-        if (!keepPlayerOutOfWalls.IsHeadPositionAllowed(_headTransform.position))
-            transform.position = oldPosition;
+        //if (!keepPlayerOutOfWalls.IsHeadPositionAllowed(_headTransform.position))
+        //    transform.position = oldPosition;
 
         if (Mathf.Abs(_currentLeftJoystickDirection.x) > 0.01f)
         {

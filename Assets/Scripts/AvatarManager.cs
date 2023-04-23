@@ -4,6 +4,7 @@ using System;
 
 public class AvatarManager : MonoBehaviour
 {
+    public GameObject prefab;
     private static AvatarManager _instance;
     public static AvatarManager GetInstance() {
         if(_instance == null) return _instance = FindObjectOfType<AvatarManager>();
@@ -26,8 +27,15 @@ public class AvatarManager : MonoBehaviour
     public event Action<PlayerAvatar> avatarCreated;
     public event Action<PlayerAvatar> avatarDestroyed;
     
-    void Start()
+    private void Start()
     {
         _avatars = new Dictionary<int, PlayerAvatar>();
+    }
+
+    public void Initialize(Session session) {
+        PlayerAvatar local = Instantiate(prefab).GetComponent<PlayerAvatar>();
+
+        _avatars.Clear();
+        _avatars.Add(-1, local);
     }
 }
