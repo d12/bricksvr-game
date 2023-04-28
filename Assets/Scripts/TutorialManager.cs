@@ -1,6 +1,4 @@
 ﻿using UnityEngine.XR.Interaction.Toolkit;
-using UnityEngine.SceneManagement;
-using Random = UnityEngine.Random;
 using System.Collections;
 using UnityEngine.UI;
 using UnityEngine;
@@ -12,6 +10,8 @@ public class TutorialManager : MonoBehaviour
     public GameObject playerControllers;
     public GameObject infoBoard;
     public GameObject tutorialEnvContents;
+
+    public Session session;
 
     public SnapTurnProvider snapTurnProvider;
     public SmoothTurn smoothTurn;
@@ -66,9 +66,7 @@ public class TutorialManager : MonoBehaviour
 
     private bool _startedTutorial;
     private bool _advancing;
-    private bool _connectedToNormcore;
 
-    private bool _didConnectToRoom;
     private bool _didDisconnectFromRoom;
 
     private int _initialLateralMovementIndex;
@@ -95,8 +93,6 @@ public class TutorialManager : MonoBehaviour
     private void Start()
     {
         _instance = this;
-        //realtime.didConnectToRoom += DidConnectToRoom;
-        //realtime.didDisconnectFromRoom += DidDisconnectFromRoom;
     }
 
     private void Update()
@@ -127,12 +123,6 @@ public class TutorialManager : MonoBehaviour
         tutorialEnvContents.SetActive(true);
 
         MovePlayerToTutorial();
-        yield return ConnectToNormcore();
-
-        if (!_didConnectToRoom)
-            yield break;
-
-        _connectedToNormcore = true;
 
         snapTurnProvider.enabled = true;
         smoothTurn.enabled = false;
@@ -150,11 +140,15 @@ public class TutorialManager : MonoBehaviour
         roomMenuButton.interactable = false;
 
         firstBrick = CreateNewBrick("4x2", firstBrickSpawnPoint.transform, new Color32(118, 85, 227, 255));
+
+        // For some reason TutorialManager is running before BrickPickerManager's Start() function so we wait a second.
+        yield return new WaitForSeconds(1);
         yield return brickPickerManager.WarmMenu();
 
         LightManager.GetInstance().EnableLight(LightManager.Area.Tutorial);
 
         yield return null;
+        SessionManager.GetInstance().session.StartTutorialSession();
 
         yield return ScreenFadeProvider.Unfade(ambientMusic, _ambientMusicMaxVolume);
 
@@ -173,25 +167,6 @@ public class TutorialManager : MonoBehaviour
 
             xrRig.RotateAroundCameraUsingRigUp(tutorialSpawnPoint.transform.eulerAngles.y);
         });
-    }
-
-    private IEnumerator ConnectToNormcore()
-    {
-        //realtime.Connect("tutorial-" + UserId.Get() + Random.Range(0, 100000));
-
-        float time = Time.time;
-        while (Time.time - time < 10f)
-        {
-            if (_didConnectToRoom) break;
-            yield return null;
-        }
-
-        if (!_didConnectToRoom)
-        {
-            Debug.LogError("Failed to connect to Normcore!");
-            UserSettings.GetInstance().TutorialPlayed = true;
-            SceneManager.LoadSceneAsync(SceneManager.GetActiveScene().name);
-        }
     }
 
     private void PlaySuccessTrack()

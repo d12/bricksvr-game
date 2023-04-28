@@ -430,6 +430,7 @@ public class SessionManager : MonoBehaviour
         LoadingError.IntentionalDisconnect = true;
         UserSettings.GetInstance().TutorialPlayed = true;
         if(session.isSinglePlayer) LocalSessionLoader.SaveRoom(session.saveDirectory);
+        session.EndSession();
 
         StartCoroutine(BackToMenu());
     }
@@ -611,9 +612,6 @@ public class SessionManager : MonoBehaviour
         {
             r.enabled = false;
         }
-
-        menuLeftHand.SetActive(false);
-        menuRightHand.SetActive(false);
     }
 
     private void DidSessionEnd(Session session)

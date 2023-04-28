@@ -26,10 +26,10 @@ public class EnableRoomMenuForOwner : MonoBehaviour
 
                 // TODO: Remember to make a room config for single-player games.
                 lowGravityToggle.interactable = isOwner;
-                lowGravityToggle.SetIsOnWithoutNotify(true);
+                lowGravityToggle.SetIsOnWithoutNotify(lowGravityToggle.isOn);
 
                 movingThroughBricksAllowedToggle.interactable = isOwner;
-                movingThroughBricksAllowedToggle.SetIsOnWithoutNotify(false);
+                movingThroughBricksAllowedToggle.SetIsOnWithoutNotify(movingThroughBricksAllowedToggle.isOn);
 
                 menuSubtitle.text = isOwner ? OwnerText : NotOwnerText;
             }

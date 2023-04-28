@@ -1,5 +1,6 @@
 {
   "dependencies": {
+    "com.judahperez.hsvcolorpicker": "https://github.com/judah4/HSV-Color-Picker-Unity.git#v3.2.2",
     "com.nobi.roundedcorners": "https://github.com/kirevdokimov/Unity-UI-Rounded-Corners.git",
     "com.unity.ide.rider": "1.2.1",
     "com.unity.ide.vscode": "1.2.3",

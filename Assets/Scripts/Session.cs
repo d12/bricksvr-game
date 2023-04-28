@@ -1,6 +1,6 @@
-﻿using UnityEngine;
+﻿using System.Collections;
+using UnityEngine;
 using System;
-using System.Collections;
 
 public class Session : MonoBehaviour
 {
@@ -17,10 +17,12 @@ public class Session : MonoBehaviour
 
     public bool canPlace {
         get {
-            if(isMultiPlayer) {
+
+            if (isMultiPlayer)
                 return false;
-            }
-            else return isSinglePlayer;
+            else if (isSinglePlayer) return true;
+            else if (isTutorial) return true;
+            else return false;
         }
     }
 
@@ -38,15 +40,24 @@ public class Session : MonoBehaviour
         }
     }
 
+    private bool _singlePlayer;
     public bool isSinglePlayer {
         get {
-            return true;
+            return _singlePlayer;
         }
     }
 
     public bool isMultiPlayer {
         get {
             return false;
+        }
+    }
+
+    public bool isTutorial
+    {
+        get
+        {
+            return TutorialManager.GetInstance().IsTutorialRunning();
         }
     }
 
@@ -60,6 +71,7 @@ public class Session : MonoBehaviour
     public IEnumerator LoadSave(string file) {
         SessionManager manager = SessionManager.GetInstance();
         BrickPrefabCache prefabCache = BrickPrefabCache.GetInstance();
+        _singlePlayer = true;
         _loading = true;
 
         loadingScreen.loadingText.text = $"Status: Generating brick cache...";
@@ -85,7 +97,7 @@ public class Session : MonoBehaviour
             if ((createdBricks[i] != null) && (i % 8) == 0)
             {
                 yield return null;
-                loadingScreen.loadingText.text = $"Status: Loaded {i}/{brickData.Length} bricks...";
+                loadingScreen.loadingText.text = $"Status: Loaded {i + 1}/{brickData.Length} bricks...";
             }
         }
 
@@ -97,11 +109,8 @@ public class Session : MonoBehaviour
             createdBricks[i].RecalculateEnabledConnectors();
             createdBricks[i].RecalculateRenderedGeometry();
 
-            if (i % (16) == 0)
-            {
-                yield return null;
-                loadingScreen.loadingText.text = $"Status: Optimized {i}/{brickData.Length} bricks...";
-            }
+            yield return null;
+            loadingScreen.loadingText.text = $"Status: Optimized {i + 1}/{brickData.Length} bricks...";
         }
 
         chunkedRenderer.enabled = true;
@@ -116,7 +125,7 @@ public class Session : MonoBehaviour
         //manager.WarmSpawnerCaches();
 
         manager.buttonInput.DisableMenuControls();
-
+        
         manager.menuEnvironment.SetActive(false);
         manager.mainEnvironment.SetActive(true);
 
@@ -135,6 +144,9 @@ public class Session : MonoBehaviour
 
         manager.menuBoard.SetActive(false);
 
+        manager.menuLeftHand.SetActive(false);
+        manager.menuRightHand.SetActive(false);
+
         // Some time for things to settle
         yield return new WaitForSeconds(0.25f);
 
@@ -151,7 +163,23 @@ public class Session : MonoBehaviour
         didSessionStart.Invoke(this);
     }
 
-    public void Start() {
+    public void StartTutorialSession() {
+        SessionManager manager = SessionManager.GetInstance();
+        manager.joystickLocomotion.enabled = true;
+        _singlePlayer = false;
+        _loading = false;
+        playing = true;
+        
+        manager.menuLeftHand.SetActive(false);
+        manager.menuRightHand.SetActive(false);
 
+        AvatarManager.GetInstance().Initialize(this);
+        didSessionStart.Invoke(this);
+    }
+
+    public void EndSession()
+    {
+        playing = false;
+        didSessionEnd.Invoke(this);
     }
 }

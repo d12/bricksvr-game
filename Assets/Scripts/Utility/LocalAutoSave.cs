@@ -18,9 +18,12 @@ public class LocalAutoSave : MonoBehaviour
 
         manager = SessionManager.GetInstance();
         manager.session.didSessionStart += SessionDidStart;
+        manager.session.didSessionEnd += SessionDidStart;
     }
 
-    private void SessionDidStart(Session _) {
+    private void SessionDidStart(Session session) {
+        if (session.isTutorial) return;
+
         routine = StartCoroutine(AutoSave());
         settings.AutosaveUpdated.AddListener((int number) => {
             wait = number * 60;

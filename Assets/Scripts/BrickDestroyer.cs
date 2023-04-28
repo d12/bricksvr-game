@@ -44,7 +44,7 @@ public class BrickDestroyer : MonoBehaviour
         yield return new WaitForEndOfFrame();
         yield return new WaitForEndOfFrame();
 
-        PlacedBrickCreator.DestroyBrickObject(obj);
+        GameObject.Destroy(obj);
 
         yield return null;
         yield return null;

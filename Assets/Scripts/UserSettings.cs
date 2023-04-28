@@ -35,6 +35,7 @@ public class UserSettings : MonoBehaviour
     public SerializableIntEvent AvatarEyesUpdated;
     public SerializableIntEvent BrickShininessUpdated;
     public SerializableIntEvent AutosaveUpdated;
+    public SerializableIntEvent SkyboxUpdated;
 
     public SerializableStringEvent NicknameUpdated;
 
@@ -85,7 +86,8 @@ public class UserSettings : MonoBehaviour
         if (!PlayerPrefs.HasKey(AvatarMouthKey))                    PlayerPrefs.SetInt(AvatarMouthKey, 1);
         if (!PlayerPrefs.HasKey(AvatarEyesKey))                     PlayerPrefs.SetInt(AvatarEyesKey, 1);
         if (!PlayerPrefs.HasKey(BrickShininessKey))                 PlayerPrefs.SetInt(BrickShininessKey, 5);
-        if (!PlayerPrefs.HasKey(BrickShininessKey))                 PlayerPrefs.SetInt(BrickShininessKey, 5);
+        if (!PlayerPrefs.HasKey(AutosaveKey))                       PlayerPrefs.SetInt(AutosaveKey, 5);
+        if (!PlayerPrefs.HasKey(SkyboxKey))                         PlayerPrefs.SetInt(SkyboxKey, 0);
     }
 
     private void SendInitialEvents()
@@ -113,6 +115,7 @@ public class UserSettings : MonoBehaviour
         AvatarEyesUpdated?.Invoke(PlayerPrefs.GetInt(AvatarEyesKey));
         BrickShininessUpdated?.Invoke(PlayerPrefs.GetInt(BrickShininessKey));
         AutosaveUpdated?.Invoke(PlayerPrefs.GetInt(AutosaveKey));
+        SkyboxUpdated?.Invoke(PlayerPrefs.GetInt(SkyboxKey));
     }
 
     private void SendNicknameToServerOnLoad()
@@ -395,5 +398,16 @@ public class UserSettings : MonoBehaviour
     public float AutoSaveF
     {
         set => AutoSave = (int) value;
+    }
+
+    private const string SkyboxKey = "skybox";
+    public int Skybox
+    {
+        get => PlayerPrefs.GetInt(SkyboxKey);
+        set
+        {
+            PlayerPrefs.SetInt(SkyboxKey, value);
+            SkyboxUpdated?.Invoke(value);
+        }
     }
 }

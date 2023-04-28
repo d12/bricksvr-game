@@ -94,7 +94,7 @@ public class SliderControl : MonoBehaviour
 
     private void OnValidate()
     {
-#if UNITY_EDITOR
+        #if UNITY_EDITOR
             if (!Application.isEditor)
                 return;
 
@@ -124,6 +124,6 @@ public class SliderControl : MonoBehaviour
 
             _value = initialValue;
             ReRenderSlider();
-#endif
+        #endif
     }
 }

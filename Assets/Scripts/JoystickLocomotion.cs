@@ -28,10 +28,11 @@ public class JoystickLocomotion : MonoBehaviour
 
     private void Start()
     {
-        if (Application.isEditor)
-        {
-            enabled = false;
-        }
+        // TODO: Work on VR Simulator script some more before turning this off
+        //if (Application.isEditor)
+        //{
+        //    enabled = false;
+        //}
 
         _headTransform = head.transform;
     }

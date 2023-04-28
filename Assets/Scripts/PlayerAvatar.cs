@@ -20,6 +20,8 @@ public class PlayerAvatar : MonoBehaviour
     public GameObject nameLabel;
     public GameObject face;
 
+    private GameObject localRig;
+
     public void Start() {
         source = FindObjectOfType<LocalRigData>();
 
@@ -27,6 +29,7 @@ public class PlayerAvatar : MonoBehaviour
         
         nameLabel.SetActive(false);
         face.SetActive(false);
+        localRig = GameObject.Find("Player Controllers/VR Rig");
     }
 
     public void Update() {
@@ -35,5 +38,6 @@ public class PlayerAvatar : MonoBehaviour
         rightHand.SetPositionAndRotation(source.rightHand.position, source.rightHand.rotation);
         leftHand.SetPositionAndRotation(source.leftHand.position, source.leftHand.rotation);
         head.SetPositionAndRotation(source.head.position, source.head.rotation);
+        transform.localScale = localRig.transform.localScale;
     }
 }

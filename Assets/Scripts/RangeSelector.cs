@@ -13,6 +13,8 @@ public class RangeSelector : MonoBehaviour
     public int min;
     public int max;
 
+    public bool addOneMoreToDisplay;
+
     private int _currentValue;
 
     public SerializableIntEvent ValueUpdated;
@@ -56,6 +58,6 @@ public class RangeSelector : MonoBehaviour
 
     private void UpdateUIText()
     {
-        text.text = _currentValue.ToString();
+        text.text = (addOneMoreToDisplay ? _currentValue + 1 : _currentValue).ToString();
     }
 }

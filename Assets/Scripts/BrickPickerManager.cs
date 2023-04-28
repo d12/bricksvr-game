@@ -4,7 +4,7 @@ using System.Collections;
 using UnityEngine.UI;
 using UnityEngine;
 using System.Linq;
-using System;
+using HSVPicker;
 
 public class BrickPickerManager : MonoBehaviour
 {
@@ -27,6 +27,8 @@ public class BrickPickerManager : MonoBehaviour
     public GameObject tilePrefab;
 
     public SessionManager SessionManager;// Find info about the in-game menu. We shouldn't open the brick menu if the in-game menu is open.
+
+    public ColorPicker colorPicker;
 
     public GameObject leftHand;
     public GameObject rightHand;
@@ -92,6 +94,13 @@ public class BrickPickerManager : MonoBehaviour
         SetColor(_activeColorPickerSaveSpot.GetColor());
 
         fade.BeginShrink();
+
+        colorPicker.CurrentColor = _activeColorPickerSaveSpot.color;
+        colorPicker.onValueChanged.AddListener(color =>
+        {
+            SetColor(color);
+            _activeColorPickerSaveSpot.SetColor(color);
+        });
     }
 
     private void LateUpdate()
@@ -174,6 +183,7 @@ public class BrickPickerManager : MonoBehaviour
     {
         _activeColorPickerSaveSpot.SetColor(color);
         changeCategoryColors.UpdateColor(color);
+        colorPicker.CurrentColor = color;
         foreach (BrickPickerBrick brickPickerBrick in _brickPickerBricks)
         {
             brickPickerBrick.SetColor(color);

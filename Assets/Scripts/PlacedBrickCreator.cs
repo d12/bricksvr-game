@@ -65,7 +65,9 @@ public static class PlacedBrickCreator
         SessionManager sessionManager = SessionManager.GetInstance();
         Session session = sessionManager.session;
 
-        if(session.isSinglePlayer)
-            GameObject.Destroy(gameObject);
+        BrickDestroyer destroyer = BrickDestroyer.GetInstance();
+
+        if (session.isSinglePlayer)
+            destroyer.DelayedDestroy(gameObject);
     }
 }
