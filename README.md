@@ -1,14 +1,22 @@
 # BricksVR
 
-This is the open source mirror of the main BricksVR Unity game. The purpose of this mirror is to assist with ongoing modding efforts happening in Discord and to act as a learning resource for those building games or those just curious about how a game works.
+This is a fork of the open source mirror of BricksVR the Unity game. The purpose of this fork is not only to restore the game to a playable state but even add some new features.
 
-I'm also open-sourcing all assets generated for/by BricksVR including Brick models and artwork. This work is licensed under MIT and can be re-purposed or copied directly into personal or commercial projects without attribution.
+All assets generated for/by BricksVR including Brick models and artwork have been open-sourced by Nat. This work is licensed under MIT and can be re-purposed or copied directly into personal or commercial projects without attribution.
 
-The game is available for Oculus Quest [here](https://www.oculus.com/experiences/quest/4018602774873329/).
+You can find the original game for the Oculus Quest [here](https://www.oculus.com/experiences/quest/4018602774873329/).
 
 ## Running the project
 
-This project is not in a state where it will run. The BricksVR game has dependencies on several paid services including GCP, Normcore, and premium assets and packages. Everything premium has been removed from this repository. The GitHub repo is meant as a reference to read and learn from, and not as a way to contribute to the BricksVR project. BricksVR is currently not under development.
+- Clone the repository
+  - `git clone https://github.com/ATXLtheAxolotl/BricksVR-Rebuilt.git`
+- Add project to Unity
+### Android Only
+- To build the game as an apk you will need to:
+  - Go into player settings.
+  - Go into publishing settings.
+  - Use `user.keystore`.
+  - Set the password to `bricks`.
 
 ## Licensing
 
@@ -18,7 +26,7 @@ Some premium assets have been removed from this project, including some music an
 
 ## Notes about the project
 
-This was my first Unity project. If you're combing through the code, expect some odd, inefficient, and anti-idiomatic code. I began to focus on better code towards the end of the project but the codebase is still littered with very low quality work.
+This was Nat's very first Unity project. If you're combing through the code, expect some odd, inefficient, and anti-idiomatic code. I began to focus on better code towards the end of the project but the codebase is still littered with very low quality work.
 
 ## Gallery
 
@@ -40,5 +48,5 @@ By LuckyK65
 
 ## Contact
 
-If you have questions or comments, you can make an issue or reach me in the Discord: https://bricksvr.com/discord
+If you have questions or comments, you can make an issue or ask in Discord: https://discord.gg/bricksvr-812341421100892230
 
