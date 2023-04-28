@@ -1,4 +1,5 @@
 ﻿using System.Collections;
+using UnityEngine.UI;
 using UnityEngine;
 using System;
 
@@ -8,6 +9,7 @@ public class Session : MonoBehaviour
     public LoadingScreen loadingScreen;
     public string worldName = "My world";
     public string saveDirectory;
+    public Toggle toggle;
 
     public int clientID {
         get {
@@ -77,6 +79,7 @@ public class Session : MonoBehaviour
         loadingScreen.loadingText.text = $"Status: Generating brick cache...";
         prefabCache.GenerateCache();
         loadingScreen.loadingText.text = $"Status: Reading bricks from file...";
+
         BrickData.LocalBrickData[] brickData = LocalSessionLoader.ReadSave(file);
         BrickAttach[] createdBricks = new BrickAttach[brickData.Length];
 
@@ -153,6 +156,9 @@ public class Session : MonoBehaviour
         _loading = false;
         manager.musicPlayer.Resume();
         manager.joystickLocomotion.enabled = true;
+
+        Settings settings = LocalSessionLoader.ReadSettings(file);
+        toggle.isOn = settings.lowGravity;
 
         yield return StartCoroutine(ScreenFadeProvider.Unfade(manager.ambientMusic, manager._ambientMusicMaxVolume));
 

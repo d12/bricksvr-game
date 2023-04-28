@@ -87,7 +87,6 @@ public class ColorCarousel : MonoBehaviour
             return;
 
         editorColorIndex = Mathf.Clamp(editorColorIndex, 0, colors.Length - 1);
-
         colorImage.color = colors[editorColorIndex];
     }
 }

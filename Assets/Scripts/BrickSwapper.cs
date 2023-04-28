@@ -32,9 +32,8 @@ public static class BrickSwapper
 
         newBrick.GetComponent<BrickAttach>().texOffset = brickAttach.texOffset;
 
-        // Gets destroyed by the UUID setter in BuildingBrickSync because of the duplicate uuid
         //brickAttach.DelayedDestroy();
-        brick.SetActive(false);
+        BrickDestroyer.GetInstance().DelayedDestroy(brick);
 
         return newBrick;
     }

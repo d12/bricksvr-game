@@ -25,6 +25,31 @@ public class LocalSessionLoader : MonoBehaviour
         }
     }
 
+    public static Settings ReadSettings(string file)
+    {
+        if (!File.Exists(file))
+        {
+            Debug.LogError("Save not found!");
+            return new Settings {
+                lowGravity = true
+            };
+        }
+
+        using (ZipArchive zip = ZipFile.Open(file, ZipArchiveMode.Read))
+        {
+            ZipArchiveEntry entry = zip.GetEntry("settings.json");
+            if (entry == null) return new Settings {
+                lowGravity = true
+            };
+
+            using (StreamReader reader = new StreamReader(entry.Open()))
+            {
+                string data = reader.ReadToEnd();
+                return JsonConvert.DeserializeObject<Settings>(data);
+            }
+        }
+    }
+
     public static void SaveRoom(string path) {
         BrickStore store = BrickStore.GetInstance();
         BrickData.LocalBrickData[] bricks = store.Values()
@@ -56,6 +81,29 @@ public class LocalSessionLoader : MonoBehaviour
                 });
 
                 writer.Write(roomData);
+            }
+        }
+
+        Settings settings = new Settings {
+            lowGravity = SessionManager.GetInstance().session.toggle.isOn
+        };
+
+        using (ZipArchive zip = ZipFile.Open(path, ZipArchiveMode.Update))
+        {
+            ZipArchiveEntry entry = zip.GetEntry("settings.json");
+            if (entry != null)
+                entry.Delete();
+
+            entry = zip.CreateEntry("settings.json", System.IO.Compression.CompressionLevel.Optimal);
+
+            using (StreamWriter writer = new StreamWriter(entry.Open()))
+            {
+                string serializedSettings = JsonConvert.SerializeObject(settings, new JsonSerializerSettings
+                {
+                    ReferenceLoopHandling = ReferenceLoopHandling.Ignore
+                });
+
+                writer.Write(serializedSettings);
             }
         }
     }

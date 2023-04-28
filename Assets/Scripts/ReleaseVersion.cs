@@ -6,7 +6,7 @@ public static class ReleaseVersion
 {
     public static int Major = 0;
     public static int Minor = 2;
-    public static int Patch = 41;
+    public static int Patch = 42;
 
     public static string VersionString()
     {
