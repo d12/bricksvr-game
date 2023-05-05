@@ -74,6 +74,7 @@ public class SessionManager : MonoBehaviour
     public GameObject audioSettingsPage;
     public GameObject controlsSettingsPage;
     public GameObject miscSettingsPage;
+    public GameObject miscSettings2Page;
     public GameObject loadingPage;
     public GameObject roomMenuPage;
     public GameObject enterNamePage;
@@ -660,6 +661,7 @@ public class SessionManager : MonoBehaviour
         audioSettingsPage.SetActive(false);
         controlsSettingsPage.SetActive(false);
         miscSettingsPage.SetActive(false);
+        miscSettings2Page.SetActive(false);
         loadingPage.SetActive(false);
         roomMenuPage.SetActive(false);
         enterNamePage.SetActive(false);
