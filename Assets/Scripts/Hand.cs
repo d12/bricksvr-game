@@ -41,6 +41,7 @@ namespace OVRTouchSample
         public const float TriggerDebounceTime = 0.05f;
         public const float ThumbDebounceTime = 0.15f;
 
+        
         [FormerlySerializedAs("m_controller")] [SerializeField]
         private OVRInput.Controller mController = OVRInput.Controller.None;
         [FormerlySerializedAs("m_animator")] [SerializeField]
